@@ -1,14 +1,12 @@
 package space.darksitedb.astrolib.units;
 
-public class Foot implements Length {
-
-    private final double value;
+public class Foot extends Unit implements Length {
 
     private static final double TO_METERS = 0.3048;
     private static final int TO_INCHES = 12;
 
     public Foot(double value) {
-        this.value = value;
+        super(value);
     }
 
     @Override

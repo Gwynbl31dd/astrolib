@@ -1,25 +1,21 @@
 package space.darksitedb.astrolib.units;
 
-public class LightYear implements Length {
+public class LightYear extends Unit implements Length {
 
-    private final double value;
     private static final double TO_MILES = 5.879e12;
     private static final double TO_KILOMETERS = 9.4605284e+12;
     private static final double TO_AU = 63241.077084266280;
 
     public LightYear(double value) {
-        this.value = value;
+        super(value);
     }
 
     @Override
-    public double getValue() {
-        return value;
-    }
-
     public Mile toMiles() {
         return new Mile(value * TO_MILES);
     }
 
+    @Override
     public Parsec toParsecs() {
         return new Parsec(value / new Parsec(1).toLightYears().getValue());
     }

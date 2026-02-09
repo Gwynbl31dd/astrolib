@@ -1,13 +1,11 @@
 package space.darksitedb.astrolib.units;
 
-public class Inch implements Length {
-
-    private final double value;
+public class Inch extends Unit implements Length {
 
     private static final double TO_MILLIMETERS = 25.4;
 
     public Inch(double value) {
-        this.value = value;
+        super(value);
     }
 
     @Override

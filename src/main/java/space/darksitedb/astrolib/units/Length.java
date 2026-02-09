@@ -2,8 +2,6 @@ package space.darksitedb.astrolib.units;
 
 public interface Length {
 
-    double getValue();
-
     Inch toInches();
 
     Millimeter toMillimeters();

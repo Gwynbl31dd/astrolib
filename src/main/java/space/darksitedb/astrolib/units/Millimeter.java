@@ -1,16 +1,9 @@
 package space.darksitedb.astrolib.units;
 
-public class Millimeter implements Length {
-
-    private final double value;
+public class Millimeter extends Unit implements Length {
 
     public Millimeter(double value) {
-        this.value = value;
-    }
-
-    @Override
-    public double getValue() {
-        return value;
+        super(value);
     }
 
     @Override

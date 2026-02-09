@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 
 public class UnitsTest {
 
-    // To inch conversions
     @Test
     void givenMillimeters_whenConvertToInches_thenCorrect() {
         Millimeter mm = new Millimeter(5);
@@ -71,8 +70,6 @@ public class UnitsTest {
         Inch inch = au.toInches();
         assertEquals(2.9449728E12, inch.getValue(), 0.001);
     }
-
-    // To millimeters conversions
 
     @Test
     void givenInches_whenConvertToMillimeters_thenCorrect() {
@@ -137,8 +134,6 @@ public class UnitsTest {
         assertEquals(160934.4, mm.getValue(), 0.001);
     }
 
-    // To Feet conversions
-
     @Test
     void givenMeters_whenConvertToFeet_thenCorrect() {
         Meter meter = new Meter(30);
@@ -152,8 +147,6 @@ public class UnitsTest {
         Foot feet = km.toFeet();
         assertEquals(1640.4199, feet.getValue(), 0.0001);
     }
-
-    // To Meter conversions
 
     @Test
     void givenFeet_whenConvertToMeters_thenCorrect() {
@@ -176,8 +169,6 @@ public class UnitsTest {
         assertEquals(321.869, meter.getValue(), 0.001);
     }
 
-    // To Kilometer conversions
-
     @Test
     void givenMiles_whenConvertToKilometers_thenCorrect() {
         Mile mile = new Mile(100);
@@ -191,8 +182,6 @@ public class UnitsTest {
         Kilometer km2 = km.toKilometers();
         assertEquals(42.0, km2.getValue());
     }
-
-    // To Miles conversions
 
     @Test
     void givenKilometers_whenConvertToMiles_thenCorrect() {
@@ -229,8 +218,6 @@ public class UnitsTest {
         assertEquals(42.0, mile2.getValue());
     }
 
-    // To LightYears conversions
-
     @Test
     void givenMiles_whenConvertToLightYears_thenCorrect() {
         Mile mile = new Mile(9.3e+7);
@@ -251,8 +238,6 @@ public class UnitsTest {
         LightYear ly = pc.toLightYears();
         assertEquals(9.78468, ly.getValue(), 0.0001);
     }
-
-    // To Parsec conversions
 
     @Test
     void givenLightYears_whenConvertToParsecs_thenCorrect() {
@@ -275,8 +260,6 @@ public class UnitsTest {
         assertEquals(3.24078e-11, pc.getValue(), 0.0001);
     }
 
-    // To Au conversions
-
     @Test
     void givenMiles_whenConvertToAu_thenCorrect() {
         Mile mile = new Mile(10000);
@@ -290,8 +273,6 @@ public class UnitsTest {
         Au au = km.toAus();
         assertEquals(6.6845871226706E-9, au.getValue(), 0.00001);
     }
-
-    // Rest
 
     @Test
     void givenInches_whenConvertToAu_thenCorrect() {

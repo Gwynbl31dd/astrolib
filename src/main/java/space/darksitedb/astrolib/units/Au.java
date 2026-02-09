@@ -1,14 +1,12 @@
 package space.darksitedb.astrolib.units;
 
-public class Au implements Length {
-
-    private final double value;
+public class Au extends Unit implements Length {
 
     private static final double TO_MILES = 9.296e+7;
     private static final double TO_KILOMETERS = 149597870.691;
 
     public Au(double value) {
-        this.value = value;
+        super(value);
     }
 
     @Override

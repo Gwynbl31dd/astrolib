@@ -1,18 +1,12 @@
 package space.darksitedb.astrolib.units;
 
-public class Meter implements Length {
-
-    private final double value;
+public class Meter extends Unit implements Length {
 
     public Meter(double value) {
-        this.value = value;
+        super(value);
     }
 
     @Override
-    public double getValue() {
-        return value;
-    }
-
     public Foot toFeet() {
         return new Foot(value / new Foot(1).toMeters().getValue());
     }
