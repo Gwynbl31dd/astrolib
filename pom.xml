@@ -20,6 +20,7 @@
     <junit.version>5.10.1</junit.version>
     <spotless.version>2.43.0</spotless.version>
     <checkstyle.version>10.12.5</checkstyle.version>
+    <jacoco.version>0.8.11</jacoco.version>
 
     <!-- JPMS / manifest metadata -->
     <automatic.module.name>space.darksitedb.astrolib</automatic.module.name>
@@ -88,6 +89,49 @@
           <!-- Helps when you have module-info.java -->
           <useModulePath>true</useModulePath>
         </configuration>
+      </plugin>
+
+      <!-- JaCoCo test coverage -->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco.version}</version>
+        <executions>
+          <execution>
+            <id>prepare-agent</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>report</id>
+            <goals>
+              <goal>report</goal>
+            </goals>
+            <phase>test</phase>
+          </execution>
+          <execution>
+            <id>check</id>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <phase>verify</phase>
+            <configuration>
+              <rules>
+                <rule>
+                  <element>BUNDLE</element>
+                  <limits>
+                    <limit>
+                      <counter>INSTRUCTION</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>0.80</minimum>
+                    </limit>
+                  </limits>
+                </rule>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
 
       <!-- Checkstyle -->

@@ -1,9 +1,11 @@
 package space.darksitedb.astrolib.units;
 
-public class Mile implements Distance {
+public class Mile implements Length {
 
     private final double value;
+
     private static final double TO_KILOMETERS = 1.609344;
+    private static final int TO_FOOT = 5280;
 
     public Mile(double value) {
         this.value = value;
@@ -19,12 +21,40 @@ public class Mile implements Distance {
     }
 
     public LightYear toLightYears() {
-        // We get the conversion factor from LY, easier to maintain in one place
-        return new LightYear(value * (1/new LightYear(1).toMiles().getValue()));
+        return new LightYear(value / new LightYear(1).toMiles().getValue());
     }
 
-    public Au toAu() {
-        return new Au(value * (1/new Au(1).toMiles().getValue()));
+    public Au toAus() {
+        return new Au(value / new Au(1).toMiles().getValue());
+    }
+
+    public Foot toFeet() {
+        return new Foot(value * TO_FOOT);
+    }
+
+    @Override
+    public Inch toInches() {
+        return toFeet().toInches();
+    }
+
+    @Override
+    public Millimeter toMillimeters() {
+        return toInches().toMillimeters();
+    }
+
+    @Override
+    public Meter toMeters() {
+        return toKilometers().toMeters();
+    }
+
+    @Override
+    public Mile toMiles() {
+        return this;
+    }
+
+    @Override
+    public Parsec toParsecs() {
+        return toLightYears().toParsecs();
     }
 
 }

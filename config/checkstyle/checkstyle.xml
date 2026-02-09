@@ -15,7 +15,6 @@
   <module name="TreeWalker">
 
     <module name="UnusedImports"/>
-    <module name="AvoidStarImport"/>
     <module name="NeedBraces"/>
     <module name="LeftCurly"/>
     <module name="RightCurly"/>
