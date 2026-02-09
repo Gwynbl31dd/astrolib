@@ -1,11 +1,11 @@
 package space.darksitedb.astrolib.units;
 
-public interface Angular {
-
-    Radian toRadians();
+public interface Time {
 
     Degree toDegrees();
 
     Hour toHours();
+
+    Hms toHms();
 
 }

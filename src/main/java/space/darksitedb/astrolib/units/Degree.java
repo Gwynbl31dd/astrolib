@@ -16,4 +16,11 @@ public class Degree extends Unit implements Angular {
         return this;
     }
 
+    @Override
+    public Hour toHours() {
+        // 24h = 360°
+        return new Hour(value / 360 * 24);
+        
+    }
+
 }

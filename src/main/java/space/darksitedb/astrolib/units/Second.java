@@ -1,20 +1,13 @@
 package space.darksitedb.astrolib.units;
 
-public class ArcMinute extends Unit implements Angular {
+public class Second extends Unit implements Time {
 
-    public ArcMinute(double value) {
+    public Second(double value) {
         super(value);
     }
 
     @Override
-    public Radian toRadians() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toGradian'");
-    }
-
-    @Override
     public Degree toDegrees() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'toDegrees'");
     }
 
@@ -22,6 +15,12 @@ public class ArcMinute extends Unit implements Angular {
     public Hour toHours() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'toHours'");
+    }
+
+    @Override
+    public Hms toHms() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'toHms'");
     }
 
 }

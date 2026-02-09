@@ -28,4 +28,25 @@ public class AngularTest {
         assertEquals(143.2394487827058, degree.getValue(), 1e-10);
     }
 
+    @Test
+    void givenDegree_whenConvertToDegree_thenSame() {
+        Degree degree = new Degree(45);
+        Degree converted = degree.toDegrees();
+        assertEquals(degree.getValue(), converted.getValue(), 1e-10);
+    }
+
+    @Test
+    void givenDegree_whenConvertToHour_thenCorrect() {
+        Degree degree = new Degree(156.3);
+        Hour hour = degree.toHours();
+        assertEquals(10.42, hour.getValue(), 1e-10);
+    }
+
+    @Test
+    void givenHours_whenConvertToDegree_thenCorrect() {
+        Hour hour = new Hour(2);
+        Degree degree = hour.toDegrees();
+        assertEquals(30, degree.getValue(), 1e-10);
+    }
+
 }

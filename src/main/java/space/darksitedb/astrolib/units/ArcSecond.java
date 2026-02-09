@@ -18,4 +18,10 @@ public class ArcSecond extends Unit implements Angular {
         throw new UnsupportedOperationException("Unimplemented method 'toDegrees'");
     }
 
+    @Override
+    public Hour toHours() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'toHours'");
+    }
+
 }

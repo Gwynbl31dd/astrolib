@@ -16,4 +16,10 @@ public class Radian extends Unit implements Angular {
         return new Degree(value * 180 / Math.PI);
     }
 
+    @Override
+    public Hour toHours() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'toHours'");
+    }
+
 }
