@@ -49,4 +49,33 @@ public class AngularTest {
         assertEquals(30, degree.getValue(), 1e-10);
     }
 
+    @Test
+    void givenDms_whenConvertToDegree_thenCorrect() {
+        Dms dms = new Dms(13, 04, 10);
+        Degree degree = dms.toDegrees();
+        assertEquals(13.069444444444445, degree.getValue(), 1e-10);
+    }
+
+    @Test
+    void givenLargeDms_whenConvertToDegree_thenCorrect() {
+        Dms dms = new Dms(300, 20, 0);
+        Degree degree = dms.toDegrees();
+        assertEquals(300.3333333333333, degree.getValue(), 1e-10);
+    }
+
+    @Test
+    void givenNegativeDegree_whenConvertToDms_thenCorrect() {
+        Degree degree = new Degree(-0.508333);
+        Dms dms = degree.toDms();
+        assertEquals("-0° 30' 30.00\"", dms.toString());
+    }
+
+    @Test
+    void givenPositiveDegree_whenConvertToDms_thenCorrect() {
+        Degree degree = new Degree(10.2958);
+        Dms dms = degree.toDms();
+        assertEquals("10° 17' 44.88\"", dms.toString());
+    }
+
+
 }

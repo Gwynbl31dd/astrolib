@@ -24,4 +24,10 @@ public class ArcSecond extends Unit implements Angular {
         throw new UnsupportedOperationException("Unimplemented method 'toHours'");
     }
 
+    @Override
+    public Dms toDms() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'toDms'");
+    }
+
 }
