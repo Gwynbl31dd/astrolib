@@ -10,11 +10,6 @@ public class Au extends Unit implements Length {
     }
 
     @Override
-    public double getValue() {
-        return value;
-    }
-
-    @Override
     public Mile toMiles() {
         return new Mile(value * TO_MILES);
     }

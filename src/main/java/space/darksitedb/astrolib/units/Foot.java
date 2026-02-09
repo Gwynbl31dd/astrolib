@@ -10,11 +10,6 @@ public class Foot extends Unit implements Length {
     }
 
     @Override
-    public double getValue() {
-        return value;
-    }
-
-    @Override
     public Meter toMeters() {
         return new Meter(value * TO_METERS);
     }

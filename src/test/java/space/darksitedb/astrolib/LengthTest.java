@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-public class UnitsTest {
+public class LengthTest {
 
     @Test
     void givenMillimeters_whenConvertToInches_thenCorrect() {

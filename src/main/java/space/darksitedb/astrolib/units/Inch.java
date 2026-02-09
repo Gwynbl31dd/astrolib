@@ -9,11 +9,6 @@ public class Inch extends Unit implements Length {
     }
 
     @Override
-    public double getValue() {
-        return value;
-    }
-
-    @Override
     public Millimeter toMillimeters() {
         return new Millimeter(value * TO_MILLIMETERS);
     }
