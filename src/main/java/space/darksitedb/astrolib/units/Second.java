@@ -8,19 +8,17 @@ public class Second extends Unit implements Time {
 
     @Override
     public Degree toDegrees() {
-        throw new UnsupportedOperationException("Unimplemented method 'toDegrees'");
+        return toHours().toDegrees();
     }
 
     @Override
     public Hour toHours() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toHours'");
+        return new Hour(value / 3600);
     }
 
     @Override
     public Hms toHms() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toHms'");
+        return toHours().toHms();
     }
 
 }

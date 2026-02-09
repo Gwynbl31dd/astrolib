@@ -14,8 +14,7 @@ public class Hms implements Time {
 
     @Override
     public Degree toDegrees() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toDegrees'");
+        return toHours().toDegrees();
     }
 
     @Override

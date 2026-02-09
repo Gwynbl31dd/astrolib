@@ -8,26 +8,22 @@ public class ArcMinute extends Unit implements Angular {
 
     @Override
     public Radian toRadians() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toGradian'");
+        return toDegrees().toRadians();
     }
 
     @Override
     public Degree toDegrees() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toDegrees'");
+        return new Degree(value / 60);
     }
 
     @Override
     public Hour toHours() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toHours'");
+        return toDegrees().toHours();
     }
 
     @Override
     public Dms toDms() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toDms'");
+        return toDegrees().toDms();
     }
 
 }

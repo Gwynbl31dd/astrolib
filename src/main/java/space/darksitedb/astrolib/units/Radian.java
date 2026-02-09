@@ -18,14 +18,12 @@ public class Radian extends Unit implements Angular {
 
     @Override
     public Hour toHours() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toHours'");
+        return toDegrees().toHours();
     }
 
     @Override
     public Dms toDms() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toDms'");
+        return toDegrees().toDms();
     }
 
 }
