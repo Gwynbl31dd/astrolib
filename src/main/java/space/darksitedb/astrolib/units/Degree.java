@@ -28,11 +28,9 @@ public class Degree extends Unit implements Angular {
         int sign = value < 0 ? -1 : 1;
         double absValue = Math.abs(value);
         int degrees = (int) absValue;
-
         double fractional = absValue - degrees;
         int minutes = (int) (fractional * 60);
         double seconds = (fractional * 60 - minutes) * 60;
-
         // Force the sign to be negative if the degrees part is zero but the original
         // value was negative
         return new Dms(new Degree(degrees), new ArcMinute(minutes), new ArcSecond(seconds), sign < 0);

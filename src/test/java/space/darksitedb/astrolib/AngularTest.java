@@ -2,6 +2,8 @@ package space.darksitedb.astrolib;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 import space.darksitedb.astrolib.units.*;
 
 import org.junit.jupiter.api.Test;
@@ -176,6 +178,13 @@ public class AngularTest {
         Dms dms = new Dms(new Degree(5), new ArcMinute(15), new ArcSecond(45));
         Dms converted = dms.toDms();
         assertEquals(dms.toDegrees().getValue(), converted.toDegrees().getValue(), 1e-10);
+    }
+
+    @Test
+    void givenDms_whenConvertToDms_thenNotSameInstance() {
+        Dms dms = new Dms(new Degree(5.70), new ArcMinute(15), new ArcSecond(45));
+        Dms converted = dms.toDms();
+        assertNotEquals(5.70, converted.getDegrees().getValue(), 0.1);
     }
 
     @Test

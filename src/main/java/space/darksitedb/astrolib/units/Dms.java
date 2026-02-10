@@ -8,17 +8,27 @@ public class Dms implements Angular {
     private final boolean isNegative;
 
     public Dms(Degree degrees, ArcMinute minutes, ArcSecond seconds) {
-        this.degrees = degrees;
-        this.minutes = minutes;
-        this.seconds = seconds;
-        this.isNegative = degrees.getValue() < 0;
+        this(degrees, minutes, seconds, degrees.getValue() < 0);
     }
 
     public Dms(Degree degrees, ArcMinute minutes, ArcSecond seconds, boolean isNegative) {
-        this.degrees = degrees;
-        this.minutes = minutes;
-        this.seconds = seconds;
-        this.isNegative = isNegative;
+        // If the degree value has decimal part, we need to convert it to minutes and seconds
+        if(degrees.getValue() != (int) degrees.getValue() || minutes.getValue() != (int) minutes.getValue()) {
+            double totalDegrees = degrees.getValue() + minutes.toDegrees().getValue() + seconds.toDegrees().getValue();
+            Dms dms = new Degree(totalDegrees).toDms();
+            this.degrees = dms.getDegrees();
+            this.minutes = dms.getMinutes();
+            this.seconds = dms.getSeconds();
+            this.isNegative = isNegative;
+        }
+        else {
+            this.degrees = degrees;
+            this.minutes = minutes;
+            this.seconds = seconds;
+            this.isNegative = isNegative;
+        }
+
+
     }
 
     public Degree getDegrees() {
