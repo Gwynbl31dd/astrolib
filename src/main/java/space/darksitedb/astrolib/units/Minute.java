@@ -4,6 +4,9 @@ public class Minute extends Unit implements Time {
 
     public Minute(double value) {
         super(value);
+        if(value < 0) {
+            throw new IllegalArgumentException("Minute value cannot be negative");
+        }
     }
 
     @Override

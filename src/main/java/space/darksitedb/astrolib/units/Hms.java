@@ -1,5 +1,11 @@
 package space.darksitedb.astrolib.units;
 
+/**
+ * Represents a time in Hours, Minutes and Seconds (HMS) format.
+ * The HMS format is commonly used in astronomy to represent time.
+ * It consists of three components: hours, minutes, and seconds.
+ * The hours component can be positive or negative, while the minutes and seconds components are always non-negative.
+ */
 public class Hms implements Time {
 
     private final Hour hour;

@@ -1,6 +1,8 @@
 package space.darksitedb.astrolib;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import space.darksitedb.astrolib.units.*;
 
 import org.junit.jupiter.api.Test;
@@ -82,6 +84,21 @@ public class TimeTest {
         Second second = new Second(3661);
         Hms hms = second.toHms();
         assertEquals("01:01:01.0", hms.toString());
+    }
+
+    @Test
+    void givenHour_whenValueIsNegative_thenThrowException() {
+        assertThrows(IllegalArgumentException.class, () -> new Hour(-1));
+    }
+
+    @Test
+    void givenMinute_whenValueIsNegative_thenThrowException() {
+        assertThrows(IllegalArgumentException.class, () -> new Minute(-1));
+    }
+
+    @Test
+    void givenSecond_whenValueIsNegative_thenThrowException() {
+        assertThrows(IllegalArgumentException.class, () -> new Second(-1));
     }
 
 }

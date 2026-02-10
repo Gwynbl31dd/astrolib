@@ -4,6 +4,9 @@ public class Hour extends Unit implements Time {
 
     public Hour(double value) {
         super(value);
+        if(value < 0) {
+            throw new IllegalArgumentException("Hour value cannot be negative");
+        }
     }
 
     @Override

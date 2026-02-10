@@ -4,6 +4,9 @@ public class Second extends Unit implements Time {
 
     public Second(double value) {
         super(value);
+        if(value < 0) {
+            throw new IllegalArgumentException("Second value cannot be negative");
+        }
     }
 
     @Override

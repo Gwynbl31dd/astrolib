@@ -1,5 +1,11 @@
 package space.darksitedb.astrolib.units;
 
+/**
+ * Represents an angle in Degrees, Minutes and Seconds (DMS) format.
+ * The DMS format is commonly used in astronomy and navigation to represent angles.
+ * It consists of three components: degrees, minutes, and seconds.
+ * The degrees component can be positive or negative, while the minutes and seconds components are always non-negative.
+ */
 public class Dms implements Angular {
 
     private final Degree degrees;
