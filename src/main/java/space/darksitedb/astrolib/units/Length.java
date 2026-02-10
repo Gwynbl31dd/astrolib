@@ -1,5 +1,8 @@
 package space.darksitedb.astrolib.units;
 
+/**
+ * Interface representing a length unit. It provides methods to convert the length to different units.
+ */
 public interface Length {
 
     Inch toInches();
