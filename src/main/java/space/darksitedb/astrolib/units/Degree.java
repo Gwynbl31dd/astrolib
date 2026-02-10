@@ -35,7 +35,7 @@ public class Degree extends Unit implements Angular {
 
         // Force the sign to be negative if the degrees part is zero but the original
         // value was negative
-        return new Dms(sign * degrees, minutes, seconds, sign < 0);
+        return new Dms(new Degree(degrees), new ArcMinute(minutes), new ArcSecond(seconds), sign < 0);
     }
 
 }

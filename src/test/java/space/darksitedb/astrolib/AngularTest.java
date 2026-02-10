@@ -52,14 +52,14 @@ public class AngularTest {
 
     @Test
     void givenDms_whenConvertToDegree_thenCorrect() {
-        Dms dms = new Dms(13, 04, 10);
+        Dms dms = new Dms(new Degree(13), new ArcMinute(4), new ArcSecond(10));
         Degree degree = dms.toDegrees();
         assertEquals(13.069444444444445, degree.getValue(), 1e-10);
     }
 
     @Test
     void givenLargeDms_whenConvertToDegree_thenCorrect() {
-        Dms dms = new Dms(300, 20, 0);
+        Dms dms = new Dms(new Degree(300), new ArcMinute(20), new ArcSecond(0));
         Degree degree = dms.toDegrees();
         assertEquals(300.3333333333333, degree.getValue(), 1e-10);
     }
@@ -150,40 +150,38 @@ public class AngularTest {
 
     @Test
     void givenDms_whenConvertToHours_thenCorrect() {
-        Dms dms = new Dms(15, 30, 0);
+        Dms dms = new Dms(new Degree(15), new ArcMinute(30), new ArcSecond(0));
         Hour hour = dms.toHours();
         assertEquals(1.0333333333333332, hour.getValue(), 1e-10);
     }
 
     @Test
     void givenDms_whenGetIfNegative_thenCorrect() {
-        Dms dms = new Dms(-10, 20, 30);
+        Dms dms = new Dms(new Degree(-10), new ArcMinute(20), new ArcSecond(30));
         assertEquals(true, dms.isNegative());
     }
 
     @Test
     void givenDms_whenGetValues_thenCorrect() {
-        Dms dms = new Dms(10, 20, 30);
+        Dms dms = new Dms(new Degree(10), new ArcMinute(20), new ArcSecond(30));
         assertAll(
-            () -> assertEquals(10, dms.getDegrees()),
-            () -> assertEquals(20, dms.getMinutes()),
-            () -> assertEquals(30, dms.getSeconds(), 1e-10)
+            () -> assertEquals(10, dms.getDegrees().getValue()),
+            () -> assertEquals(20, dms.getMinutes().getValue()),
+            () -> assertEquals(30, dms.getSeconds().getValue(), 1e-10)
         );
     }
 
     @Test
     void givenDms_whenConvertToDms_thenSame() {
-        Dms dms = new Dms(5, 15, 45);
+        Dms dms = new Dms(new Degree(5), new ArcMinute(15), new ArcSecond(45));
         Dms converted = dms.toDms();
         assertEquals(dms.toDegrees().getValue(), converted.toDegrees().getValue(), 1e-10);
     }
 
     @Test
     void givenDms_whenConvertToRadian_thenCorrect() {
-        Dms dms = new Dms(30, 0, 0);
+        Dms dms = new Dms(new Degree(30), new ArcMinute(0), new ArcSecond(0));
         Radian radian = dms.toRadians();
         assertEquals(Math.PI / 6, radian.getValue(), 1e-10);
     }
-
-
 }
