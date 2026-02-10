@@ -4,7 +4,7 @@ public class DegreeKelvin extends Unit implements Temperature {
 
     public DegreeKelvin(double value) throws IllegalArgumentException {
         super(value);
-        if(value < 0) {
+        if (value < 0) {
             throw new IllegalArgumentException("Temperature cannot be below absolute zero");
         }
     }

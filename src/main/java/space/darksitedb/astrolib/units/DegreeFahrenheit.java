@@ -4,7 +4,7 @@ public class DegreeFahrenheit extends Unit implements Temperature {
 
     public DegreeFahrenheit(double value) {
         super(value);
-        if(value < -459.67) {
+        if (value < -459.67) {
             throw new IllegalArgumentException("Temperature cannot be below absolute zero");
         }
     }

@@ -4,14 +4,14 @@ public class Minute extends Unit implements Time {
 
     public Minute(double value) {
         super(value);
-        if(value < 0) {
+        if (value < 0) {
             throw new IllegalArgumentException("Minute value cannot be negative");
         }
     }
 
     @Override
     public Degree toDegrees() {
-       return toHours().toDegrees();
+        return toHours().toDegrees();
     }
 
     @Override

@@ -2,9 +2,11 @@ package space.darksitedb.astrolib.units;
 
 /**
  * Represents an angle in Degrees, Minutes and Seconds (DMS) format.
- * The DMS format is commonly used in astronomy and navigation to represent angles.
+ * The DMS format is commonly used in astronomy and navigation to represent
+ * angles.
  * It consists of three components: degrees, minutes, and seconds.
- * The degrees component can be positive or negative, while the minutes and seconds components are always non-negative.
+ * The degrees component can be positive or negative, while the minutes and
+ * seconds components are always non-negative.
  */
 public class Dms implements Angular {
 
@@ -18,22 +20,21 @@ public class Dms implements Angular {
     }
 
     public Dms(Degree degrees, ArcMinute minutes, ArcSecond seconds, boolean isNegative) {
-        // If the degree value has decimal part, we need to convert it to minutes and seconds
-        if(degrees.getValue() != (int) degrees.getValue() || minutes.getValue() != (int) minutes.getValue()) {
+        // If the degree value has decimal part, we need to convert it to minutes and
+        // seconds
+        if (degrees.getValue() != (int) degrees.getValue() || minutes.getValue() != (int) minutes.getValue()) {
             double totalDegrees = degrees.getValue() + minutes.toDegrees().getValue() + seconds.toDegrees().getValue();
             Dms dms = new Degree(totalDegrees).toDms();
             this.degrees = dms.getDegrees();
             this.minutes = dms.getMinutes();
             this.seconds = dms.getSeconds();
             this.isNegative = isNegative;
-        }
-        else {
+        } else {
             this.degrees = degrees;
             this.minutes = minutes;
             this.seconds = seconds;
             this.isNegative = isNegative;
         }
-
 
     }
 
@@ -75,7 +76,8 @@ public class Dms implements Angular {
     }
 
     public String toString() {
-        return String.format("%s%d° %d' %.2f\"", isNegative ? "-" : "", (int) Math.abs(degrees.getValue()),(int) minutes.getValue(), seconds.getValue());
+        return String.format("%s%d° %d' %.2f\"", isNegative ? "-" : "", (int) Math.abs(degrees.getValue()),
+                (int) minutes.getValue(), seconds.getValue());
     }
 
 }
