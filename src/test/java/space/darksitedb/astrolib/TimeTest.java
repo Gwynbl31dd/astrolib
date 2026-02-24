@@ -3,9 +3,16 @@ package space.darksitedb.astrolib;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import space.darksitedb.astrolib.time.Date;
+import space.darksitedb.astrolib.time.Day;
+import space.darksitedb.astrolib.time.JulianDate;
+import space.darksitedb.astrolib.time.Month;
+import space.darksitedb.astrolib.time.Year;
 import space.darksitedb.astrolib.units.*;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class TimeTest {
 
@@ -99,6 +106,76 @@ public class TimeTest {
     @Test
     void givenSecond_whenValueIsNegative_thenThrowException() {
         assertThrows(IllegalArgumentException.class, () -> new Second(-1));
+    }
+
+    @ParameterizedTest(name = "year {0} is leap year: {1}")
+    @CsvSource({"1984, true", "1974, false", "2000, true", "1900, false"})
+    void givenYear_whenRequestIsLeapYear_thenCorrect(int yearValue, boolean expected) {
+        Year year = new Year(yearValue);
+        assertEquals(expected, year.isLeapYear());
+    }
+
+    @Test
+    void givenADate_whenConvertToJulianDayNumber_thenCorrect() {
+        Date date = new Date(new Year(2010), new Month(11), new Day(1));
+        JulianDate julianDate = date.toJulianDayNumber();
+        assertEquals(2455501.5, julianDate.getValue());
+    }
+    
+    @ParameterizedTest(name = "Date UT {0}-{1}-{2} {3}:{4}:{5} corresponds to Julian Date {6}")
+    @CsvSource(
+        {"2015, 5, 10, 6, 0, 0, 2457152.75",
+        "2015, 5, 10, 18, 0, 0, 2457153.25",
+        "1776, 7, 4, 0, 0, 0, 2369915.5",
+        "2010, 5, 6, 12, 0, 0, 2455323.0",
+        "2012, 4, 1, 20, 52, 48, 2456019.37"
+        }
+    )
+    void givenADateWithTime_whenConvertToJulianDayNumber_thenCorrect(int year, int month, int day, int hour, int minute, int second, double expectedJulianDate) {
+        Date date = new Date(new Year(year), new Month(month), new Day(day), new Hour(hour), new Minute(minute), new Second(second));
+        JulianDate julianDate = date.toJulianDayNumber();
+        assertEquals(expectedJulianDate, julianDate.getValue());
+    }
+
+    @ParameterizedTest(name = "Julian Date {6} corresponds to Date UT {0}-{1}-{2} {3}:{4}:{5}")
+    @CsvSource(
+        {"2015, 5, 10, 6, 0, 0, 2457152.75",
+        "2015, 5, 10, 18, 0, 0, 2457153.25",
+        "1776, 7, 4, 0, 0, 0, 2369915.5",
+        "2010, 5, 6, 12, 0, 0, 2455323.0",
+        "2012, 4, 1, 20, 52, 48, 2456019.37"
+        }
+    )
+    void givenAJulianDate_whenConvertToDate_thenCorrect(int year, int month, int day, int hour, int minute, int second, double expectedJulianDate) {
+        JulianDate julianDate = new JulianDate(expectedJulianDate); 
+        Date date = julianDate.toDate();
+        assertEquals(year, date.getYear());
+        assertEquals(month, date.getMonth());
+        assertEquals(day, date.getDay());
+    }
+
+    @ParameterizedTest(name = "Date UT {0}-{1}-{2} corresponds to day of the week {3}")
+    @CsvSource({
+        "1776, 7, 4, Thursday",
+        "2011, 9, 11, Sunday"}
+    )
+    void givenADate_whenGetDayOfTheWeek_thenCorrect(int year, int month, int day, String expectedDayOfWeek) {
+        Date date = new Date(new Year(year), new Month(month), new Day(day));
+        assertEquals(expectedDayOfWeek, date.getDayOfWeek());
+    }
+
+    @Test
+    void givenDate_whenRequestHowManyDaysIntoTheYear_thenCorrect() {
+        Date date = new Date(new Year(2009), new Month(10), new Day(30));
+        assertEquals(303, date.getDayOfYear());
+    }
+
+    @Test
+    void givenADateWithDays_whenRequestDate_thenCorrect() {
+        Date date = new Date(new Year(1900), new Day(250));
+        assertEquals(1900, date.getYear());
+        assertEquals(9, date.getMonth());
+        assertEquals(7, date.getDay());
     }
 
 }
