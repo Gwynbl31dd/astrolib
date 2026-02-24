@@ -20,7 +20,7 @@
     <junit.version>5.10.1</junit.version>
     <spotless.version>2.43.0</spotless.version>
     <checkstyle.version>10.12.5</checkstyle.version>
-    <jacoco.version>0.8.11</jacoco.version>
+    <jacoco.version>0.8.12</jacoco.version>
 
     <!-- JPMS / manifest metadata -->
     <automatic.module.name>space.darksitedb.astrolib</automatic.module.name>
