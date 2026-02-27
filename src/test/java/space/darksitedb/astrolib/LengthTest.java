@@ -103,21 +103,21 @@ public class LengthTest {
     void givenLightYears_whenConvertToMillimeters_thenCorrect() {
         LightYear ly = new LightYear(0.5);
         Millimeter mm = ly.toMillimeters();
-        assertEquals(4.7302642E18, mm.getValue(), 0.001);
+        assertEquals(4.7303652362904E18, mm.getValue());
     }
 
     @Test
     void givenParsecs_whenConvertToMillimeters_thenCorrect() {
         Parsec pc = new Parsec(0.01);
         Millimeter mm = pc.toMillimeters();
-        assertEquals(3.0856081008304006E17, mm.getValue(), 0.001);
+        assertEquals(3.0856740080150637E17, mm.getValue(), 0.0000001);
     }
 
     @Test
     void givenAus_whenConvertToMillimeters_thenCorrect() {
         Au au = new Au(1);
         Millimeter mm = au.toMillimeters();
-        assertEquals(1.49597870691E14, mm.getValue(), 0.001);
+        assertEquals(1.495978707E14, mm.getValue(), 0.001);
     }
 
     @Test
@@ -409,9 +409,16 @@ public class LengthTest {
 
     @Test
     void givenParsecs_whenConvertToMeters_thenCorrect() {
-        Parsec pc = new Parsec(0.5);
+        Parsec pc = new Parsec(1);
         Meter meter = pc.toMeters();
-        assertEquals(1.5428040504151998E16, meter.getValue(), 0.001);
+        assertEquals(3.085677581491367E16, meter.getValue(), 0.001);
+    }
+
+    @Test
+    void givenParsecs_whenConvertToAu_thenCorrect() {
+        Parsec pc = new Parsec(1);
+        Au au = pc.toAus();
+        assertEquals(206264.806, au.getValue(), 0.001);
     }
 
     @Test
@@ -439,7 +446,7 @@ public class LengthTest {
     void givenParsecs_whenConverToAu_thenCorrect() {
         Parsec pc = new Parsec(1);
         Au au = pc.toAus();
-        assertEquals(206264.81, au.getValue(), 0.001);
+        assertEquals(206264.80624709636, au.getValue(), 0.001);
     }
 
     @Test
@@ -509,7 +516,7 @@ public class LengthTest {
     void givenAus_whenConvertToMeters_thenCorrect() {
         Au au = new Au(1);
         Meter meter = au.toMeters();
-        assertEquals(1.49597870691E11, meter.getValue(), 0.001);
+        assertEquals(149597870700L, (long) meter.getValue());
     }
 
     @Test
@@ -538,5 +545,12 @@ public class LengthTest {
         Au au = new Au(1);
         Au au2 = au.toAus();
         assertEquals(1.0, au2.getValue());
+    }
+
+    @Test
+    void givenALightYear_whenConvertToMeter_thenCorrect() {
+        LightYear ly = new LightYear(1);
+        Meter meter = ly.toMeters();
+        assertEquals(9460730472580800L, (long) meter.getValue());
     }
 }

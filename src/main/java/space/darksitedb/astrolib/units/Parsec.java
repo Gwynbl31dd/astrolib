@@ -26,7 +26,7 @@ public class Parsec extends Unit implements Length {
 
     @Override
     public Meter toMeters() {
-        return toLightYears().toMeters();
+        return toAus().toMeters();
     }
 
     @Override
@@ -51,7 +51,7 @@ public class Parsec extends Unit implements Length {
 
     @Override
     public Au toAus() {
-        return new Au(value * TO_AU);
+        return new Au((648000 / Math.PI) * value);
     }
 
 }

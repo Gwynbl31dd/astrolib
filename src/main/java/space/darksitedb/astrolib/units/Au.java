@@ -3,7 +3,8 @@ package space.darksitedb.astrolib.units;
 public class Au extends Unit implements Length {
 
     private static final double TO_MILES = 9.296e+7;
-    private static final double TO_KILOMETERS = 149597870.691;
+
+    private static final long TO_METERS = 149597870700L;
 
     public Au(double value) {
         super(value);
@@ -21,17 +22,17 @@ public class Au extends Unit implements Length {
 
     @Override
     public Millimeter toMillimeters() {
-        return toKilometers().toMillimeters();
+        return toMeters().toMillimeters();
     }
 
     @Override
     public Meter toMeters() {
-        return toKilometers().toMeters();
+        return new Meter(value * TO_METERS);
     }
 
     @Override
     public Kilometer toKilometers() {
-        return new Kilometer(value * TO_KILOMETERS);
+        return new Kilometer(value * TO_METERS / 1000);
     }
 
     @Override

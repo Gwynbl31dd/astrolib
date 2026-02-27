@@ -4,6 +4,7 @@ public class LightYear extends Unit implements Length {
 
     private static final double TO_MILES = 5.879e12;
     private static final double TO_KILOMETERS = 9.4605284e+12;
+    private static final long TO_METERS = 9460730472580800L;
     private static final double TO_AU = 63241.077084266280;
 
     public LightYear(double value) {
@@ -27,12 +28,12 @@ public class LightYear extends Unit implements Length {
 
     @Override
     public Millimeter toMillimeters() {
-        return toKilometers().toMillimeters();
+        return toMeters().toMillimeters();
     }
 
     @Override
     public Meter toMeters() {
-        return toKilometers().toMeters();
+        return new Meter(value * TO_METERS);
     }
 
     @Override
