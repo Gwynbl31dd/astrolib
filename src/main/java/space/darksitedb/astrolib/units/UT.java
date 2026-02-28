@@ -27,10 +27,6 @@ public class UT extends Date {
         this(year, month, day, new Hour(0), new Minute(0), new Second(0));
     }
 
-    public UT(Year year, Month month, Day day, Hour hour) {
-        this(year, month, day, hour, new Minute(0), new Second(0));
-    }
-
     /**
      * Converts the date to Julian Day Number.
      * 
@@ -62,7 +58,7 @@ public class UT extends Date {
                 + getMinute().getValue() / 60.0 
                 + getSecond().getValue() / 3600.0)
                 / 24.0;
-                
+
         jd += dayFraction;
 
         return new JulianDate(jd);
@@ -98,27 +94,14 @@ public class UT extends Date {
         double utHours = getHour().getValue() + getMinute().getValue() / 60.0 + getSecond().getValue() / 3600.0;
         double gst = t0 + 1.002737909 * utHours;
 
-        // Handle day boundary crossings
-        java.time.LocalDateTime dateTime = java.time.LocalDateTime.of(
-                getYear().getValue(), getMonth().getValue(), getDay().getValue(), 0, 0, 0);
-
-        while (gst < 0) {
-            gst += 24;
-            dateTime = dateTime.minusDays(1);
-        }
-        while (gst >= 24) {
-            gst -= 24;
-            dateTime = dateTime.plusDays(1);
-        }
-
-        Hms gstHms = new Hms(new Hour(gst));
+        DateTimeCrossing result = getDayBondaryCrossing(gst);
 
         return new GST(
-                new Year(dateTime.getYear()),
-                new Month(dateTime.getMonthValue()),
-                new Day(dateTime.getDayOfMonth()),
-                gstHms.getHour(),
-                gstHms.getMinute(),
-                gstHms.getSecond());
+                new Year(result.dateTime().getYear()),
+                new Month(result.dateTime().getMonthValue()),
+                new Day(result.dateTime().getDayOfMonth()),
+                result.time().getHour(),
+                result.time().getMinute(),
+                result.time().getSecond());
     }
 }

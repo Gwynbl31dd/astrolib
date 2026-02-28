@@ -1,6 +1,7 @@
 package space.darksitedb.astrolib.units;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * The Date class represents a specific date and time, combining the components
@@ -9,7 +10,14 @@ import java.time.LocalDate;
  * time, as well as additional information such as the day of the week and the
  * day of the year.
  */
-public class Date {
+public abstract class Date {
+
+    /**
+     * Result of day boundary crossing calculation containing adjusted date and
+     * time.
+     */
+    protected record DateTimeCrossing(LocalDateTime dateTime, Hms time) {
+    }
 
     private final java.time.LocalDate value;
     private final Hour hour;
@@ -34,6 +42,23 @@ public class Date {
         this.hour = hour;
         this.minute = minute;
         this.second = second;
+    }
+
+    protected DateTimeCrossing getDayBondaryCrossing(double hours) {
+
+        LocalDateTime dateTime = LocalDateTime.of(
+                getYear().getValue(), getMonth().getValue(), getDay().getValue(), 0, 0, 0);
+        // Handle day boundary crossings
+        while (hours < 0) {
+            hours += 24;
+            dateTime = dateTime.minusDays(1);
+        }
+        while (hours >= 24) {
+            hours -= 24;
+            dateTime = dateTime.plusDays(1);
+        }
+
+        return new DateTimeCrossing(dateTime, new Hms(new Hour(hours)));
     }
 
     public java.time.DayOfWeek getDayOfTheWeek() {

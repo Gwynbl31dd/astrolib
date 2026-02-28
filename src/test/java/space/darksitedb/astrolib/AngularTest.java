@@ -188,6 +188,17 @@ public class AngularTest {
     }
 
     @Test
+    void givenDms_whenConvertToDmsOnlyMinutes_thenNotSameInstance() {
+        Dms dms = new Dms(new Degree(0), new ArcMinute(15.15), new ArcSecond(45));
+        Dms converted = dms.toDms();
+        assertAll(
+            () -> assertEquals(0, converted.getDegrees().getValue()),
+            () -> assertEquals(15, converted.getMinutes().getValue()),
+            () -> assertEquals(54, converted.getSeconds().getValue(), 1e-10)
+        );
+    }
+
+    @Test
     void givenDms_whenConvertToRadian_thenCorrect() {
         Dms dms = new Dms(new Degree(30), new ArcMinute(0), new ArcSecond(0));
         Radian radian = dms.toRadians();

@@ -52,28 +52,16 @@ public class GST extends Date {
 
         // Convert GST to UT: utHours = (gstHours - t0) / 1.002737909
         double utHours = (gstHours - t0) / 1.002737909;
-        // Handle day boundary crossings (should rarely happen now)
-        LocalDateTime dateTime = LocalDateTime.of(
-                getYear().getValue(), getMonth().getValue(), getDay().getValue(), 0, 0, 0);
 
-        while (utHours < 0) {
-            utHours += 24;
-            dateTime = dateTime.minusDays(1);
-        }
-        while (utHours >= 24) {
-            utHours -= 24;
-            dateTime = dateTime.plusDays(1);
-        }
-
-        Hms utHms = new Hms(new Hour(utHours));
+        DateTimeCrossing result = getDayBondaryCrossing(utHours);
 
         UT ut = new UT(
-                new Year(dateTime.getYear()),
-                new Month(dateTime.getMonthValue()),
-                new Day(dateTime.getDayOfMonth()),
-                utHms.getHour(),
-                utHms.getMinute(),
-                utHms.getSecond());
+                new Year(result.dateTime().getYear()),
+                new Month(result.dateTime().getMonthValue()),
+                new Day(result.dateTime().getDayOfMonth()),
+                result.time().getHour(),
+                result.time().getMinute(),
+                result.time().getSecond());
 
         return ut;
     }
@@ -87,25 +75,14 @@ public class GST extends Date {
         // Adjust GST for longitude offset to get LST
         double lstHours = gstHours + offset;
 
-        // Handle day boundary crossings
-        LocalDateTime dateTime = LocalDateTime.of(
-                getYear().getValue(), getMonth().getValue(), getDay().getValue(), 0, 0, 0);
+        DateTimeCrossing result = getDayBondaryCrossing(lstHours);
 
-        while (lstHours < 0) {
-            lstHours += 24;
-            dateTime = dateTime.minusDays(1);
-        }
-        while (lstHours >= 24) {
-            lstHours -= 24;
-            dateTime = dateTime.plusDays(1);
-        }
-
-        Hms lstHms = new Hms(new Hour(lstHours));
+        Hms lstHms = result.time();
 
         return new LST(
-                new Year(dateTime.getYear()),
-                new Month(dateTime.getMonthValue()),
-                new Day(dateTime.getDayOfMonth()),
+                new Year(result.dateTime().getYear()),
+                new Month(result.dateTime().getMonthValue()),
+                new Day(result.dateTime().getDayOfMonth()),
                 lstHms.getHour(),
                 lstHms.getMinute(),
                 lstHms.getSecond());

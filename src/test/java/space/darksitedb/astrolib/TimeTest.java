@@ -475,4 +475,57 @@ public class TimeTest {
                 () -> assertEquals(59, lct.getMinute().getValue()),
                 () -> assertEquals(59, (int) lct.getSecond().getValue()));
     }
+
+    @Test
+    void givenADay_whenValueIsZero_thenThrowException() {
+        assertThrows(IllegalArgumentException.class, () -> new Day(0));
+    }
+
+    @Test
+    void givenADate_whenValueHourIsInvalidPositive_thenThrowException() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new UT(new Year(2020), new Month(1), new Day(1), new Hour(24),
+                        new Minute(0), new Second(0)));
+    }
+
+    @Test
+    void givenADate_whenValueHourIsInvalidNegative_thenThrowException() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new UT(new Year(2020), new Month(1), new Day(1), new Hour(-1),
+                        new Minute(0), new Second(0)));
+    }
+
+    @Test
+    void givenADate_whenValueMinutesIsInvalidNegative_thenThrowException() {
+        assertThrows(IllegalArgumentException.class, () -> new UT(new Year(2020), new Month(1), new Day(1), new Hour(0),
+                new Minute(-1), new Second(0)));
+    }
+
+    @Test
+    void givenADate_whenValueMinutesIsInvalidPositive_thenThrowException() {
+        assertThrows(IllegalArgumentException.class, () -> new UT(new Year(2020), new Month(1), new Day(1), new Hour(0),
+                new Minute(60), new Second(0)));
+    }
+
+    @Test
+    void givenADate_whenValueSecondsIsInvalidNegative_thenThrowException() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new UT(new Year(2020), new Month(1), new Day(1), new Hour(0), new Minute(0),
+                        new Second(-1)));
+    }
+
+    @Test
+    void givenADate_whenValueSecondsIsInvalidPositive_thenThrowException() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new UT(new Year(2020), new Month(1), new Day(1), new Hour(0), new Minute(0),
+                        new Second(60)));
+    }
+
+    @Test
+    void givenADate_whenValueAreInvalidPositive_thenThrowException() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new UT(new Year(2020), new Month(1), new Day(1), new Hour(24), new Minute(60),
+                        new Second(60)));
+    }
+
 }

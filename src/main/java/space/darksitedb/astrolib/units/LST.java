@@ -18,36 +18,19 @@ public class LST extends Date {
         double longitudeHours = longitude.getValue() / 15.0;
         double gstHours = lstHours - longitudeHours;
 
-        // Handle day boundary crossings
-        java.time.LocalDateTime dateTime = java.time.LocalDateTime.of(
-                getYear().getValue(), getMonth().getValue(), getDay().getValue(), 0, 0, 0);
-
-        while (gstHours < 0) {
-            gstHours += 24;
-            dateTime = dateTime.minusDays(1);
-        }
-        while (gstHours >= 24) {
-            gstHours -= 24;
-            dateTime = dateTime.plusDays(1);
-        }
-
-        Hms gstHms = new Hms(new Hour(gstHours));
+        DateTimeCrossing result = getDayBondaryCrossing(gstHours);
 
         return new GST(
-                new Year(dateTime.getYear()),
-                new Month(dateTime.getMonthValue()),
-                new Day(dateTime.getDayOfMonth()),
-                gstHms.getHour(),
-                gstHms.getMinute(),
-                gstHms.getSecond());
+                new Year(result.dateTime().getYear()),
+                new Month(result.dateTime().getMonthValue()),
+                new Day(result.dateTime().getDayOfMonth()),
+                result.time().getHour(),
+                result.time().getMinute(),
+                result.time().getSecond());
     }
 
     public UT toUT(Degree longitude) {
         return toGST(longitude).toUT();
-    }
-
-    public LCT toLCT(Degree longitude, int offset) {
-        return toUT(longitude).toLCT(offset);
     }
 
 }
