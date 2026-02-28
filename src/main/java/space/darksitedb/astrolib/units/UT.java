@@ -1,9 +1,4 @@
-package space.darksitedb.astrolib.time;
-
-import space.darksitedb.astrolib.units.Hms;
-import space.darksitedb.astrolib.units.Hour;
-import space.darksitedb.astrolib.units.Minute;
-import space.darksitedb.astrolib.units.Second;
+package space.darksitedb.astrolib.units;
 
 /**
  * The Date is represented as UT (Universal Time)

@@ -4,14 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import space.darksitedb.astrolib.time.UT;
-import space.darksitedb.astrolib.time.Day;
-import space.darksitedb.astrolib.time.GST;
-import space.darksitedb.astrolib.time.JulianDate;
-import space.darksitedb.astrolib.time.LCT;
-import space.darksitedb.astrolib.time.LST;
-import space.darksitedb.astrolib.time.Month;
-import space.darksitedb.astrolib.time.Year;
 import space.darksitedb.astrolib.units.*;
 
 import org.junit.jupiter.api.Test;
@@ -418,7 +410,6 @@ public class TimeTest {
         LCT lct = new LCT(year, month, day, new Hour(20), new Minute(0), new Second(0), offset);
 
         UT ut = lct.toUT(); 
-
         assertAll(() -> assertEquals(2014, ut.getYear().getValue()),
                 () -> assertEquals(12, ut.getMonth().getValue()),
                 () -> assertEquals(13, ut.getDay().getValue()),
@@ -427,7 +418,6 @@ public class TimeTest {
                 () -> assertEquals(0, ut.getSecond().getValue()));
 
         GST gst = lct.toGST();
-
         assertAll(() -> assertEquals(2014, gst.getYear().getValue()),
                 () -> assertEquals(12, gst.getMonth().getValue()),
                 () -> assertEquals(13, gst.getDay().getValue()),
@@ -436,7 +426,6 @@ public class TimeTest {
                 () -> assertEquals(34, (int) gst.getSecond().getValue()));
 
         LST lst = lct.toLST(longitude);
-
         assertAll(() -> assertEquals(2014, lst.getYear().getValue()),
                 () -> assertEquals(12, lst.getMonth().getValue()),
                 () -> assertEquals(13, lst.getDay().getValue()),
@@ -457,7 +446,6 @@ public class TimeTest {
         LST lst = new LST(year, month, day, new Hour(5), new Minute(54), new Second(20));
 
         GST gst = lst.toGST(longitude);
-
         assertAll(() -> assertEquals(year.getValue(), gst.getYear().getValue()),
                 () -> assertEquals(month.getValue(), gst.getMonth().getValue()),
                 () -> assertEquals(day.getValue(), gst.getDay().getValue()),
@@ -466,7 +454,6 @@ public class TimeTest {
                 () -> assertEquals(20, (int) gst.getSecond().getValue()));
 
         UT ut = lst.toUT(longitude);
-
         assertAll(() -> assertEquals(year.getValue(), ut.getYear().getValue()),
                 () -> assertEquals(month.getValue(), ut.getMonth().getValue()),
                 () -> assertEquals(day.getValue(), ut.getDay().getValue()),
@@ -474,8 +461,7 @@ public class TimeTest {
                 () -> assertEquals(59, ut.getMinute().getValue()),
                 () -> assertEquals(59, (int) ut.getSecond().getValue()));
 
-        LCT lct = ut.toLCT(offset);
-
+        LCT lct = lst.toUT(longitude).toLCT(offset);
         assertAll(() -> assertEquals(year.getValue(), lct.getYear().getValue()),
                 () -> assertEquals(month.getValue(), lct.getMonth().getValue()),
                 () -> assertEquals(day.getValue(), lct.getDay().getValue()),
