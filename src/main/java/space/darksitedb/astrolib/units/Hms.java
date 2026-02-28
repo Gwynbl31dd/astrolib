@@ -18,6 +18,18 @@ public class Hms implements Time {
         this.second = second;
     }
 
+    public Hms(Hour hour) {
+        double totalHours = hour.getValue();
+        int h = (int) totalHours;
+        double fractionalHours = totalHours - h;
+        int m = (int) (fractionalHours * 60);
+        double fractionalMinutes = (fractionalHours * 60) - m;
+        double s = fractionalMinutes * 60;
+        this.hour = new Hour(h);
+        this.minute = new Minute(m);
+        this.second = new Second(s);
+    }
+
     @Override
     public Degree toDegrees() {
         return toHours().toDegrees();
@@ -32,6 +44,18 @@ public class Hms implements Time {
     @Override
     public Hms toHms() {
         return this;
+    }
+
+    public Hour getHour() {
+        return hour;
+    }
+
+    public Minute getMinute() {
+        return minute;
+    }
+
+    public Second getSecond() {
+        return second;
     }
 
     @Override

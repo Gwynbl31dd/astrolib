@@ -19,6 +19,7 @@ public class LCT implements Date {
     private final Hour hour;
     private final Minute minute;
     private final Second second;
+    
     private int timeZoneOffset; // Time zone offset in hours from UTC
 
     public LCT(Year year, Month month, Day day, Hour hour, Minute minute, Second second, int timeZoneOffset) {

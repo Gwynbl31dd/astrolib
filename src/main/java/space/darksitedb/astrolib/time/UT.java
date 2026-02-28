@@ -1,5 +1,6 @@
 package space.darksitedb.astrolib.time;
 
+import space.darksitedb.astrolib.units.Hms;
 import space.darksitedb.astrolib.units.Hour;
 import space.darksitedb.astrolib.units.Minute;
 import space.darksitedb.astrolib.units.Second;
@@ -117,4 +118,42 @@ public class UT implements Date {
         return new LCT(new Year(localDateTime.getYear()), new Month(localDateTime.getMonthValue()), new Day(localDateTime.getDayOfMonth()), new Hour(localDateTime.getHour()), new Minute(localDateTime.getMinute()), new Second(localDateTime.getSecond()), timeZoneOffset);
     }
 
+    public GST toGST() {
+        // Convert the Date to Julian Day Number at 0h UT (non-fractional day)
+        JulianDate jd = new UT(getYear(), getMonth(), getDay()).toJulianDayNumber();
+        //Calculate the Julian Day Number at 0h UT for January 0.0 of the given year
+        // This is equal to previous year's December 31st at 0h UT
+        JulianDate jd0 = new UT(new Year(getYear().getValue()-1), new Month(12), new Day(31)).toJulianDayNumber();
+        int days = (int) Math.floor(jd.getValue() - jd0.getValue());
+        double t = (jd0.getValue() - 2415020.0) / 36525.0;
+        double r = 6.6460656 + 2400.051262 * t + 0.00002581 * (t * t);
+        double b = 24 - r + 24 * (getYear().getValue() - 1900);
+        double t0 = 0.0657098 * days - b;
+        double utHours = hour.getValue() + minute.getValue() / 60.0 + second.getValue() / 3600.0;
+        double gst = t0 + 1.002737909 * utHours;
+        
+        // Handle day boundary crossings
+        java.time.LocalDateTime dateTime = java.time.LocalDateTime.of(
+            value.getYear(), value.getMonthValue(), value.getDayOfMonth(), 0, 0, 0);
+        
+        while(gst < 0) {
+            gst += 24;
+            dateTime = dateTime.minusDays(1);
+        }
+        while(gst >= 24) {
+            gst -= 24;
+            dateTime = dateTime.plusDays(1);
+        }
+        
+        Hms gstHms = new Hms(new Hour(gst));
+
+        return new GST(
+            new Year(dateTime.getYear()),
+            new Month(dateTime.getMonthValue()),
+            new Day(dateTime.getDayOfMonth()),
+            gstHms.getHour(),
+            gstHms.getMinute(),
+            gstHms.getSecond()
+        );
+    }
 }
