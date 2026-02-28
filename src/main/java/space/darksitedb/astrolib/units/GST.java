@@ -7,42 +7,10 @@ package space.darksitedb.astrolib.units;
  * It is based on the position of the vernal equinox and is used to calculate the positions of stars and other celestial objects in the sky at a given time.
  * GST is closely related to Universal Time (UT) but accounts for the Earth's rotation and is used for astronomical observations and calculations
  */
-public class GST implements Date {
+public class GST extends Date {
     
-    private final java.time.LocalDate value;
-    private final Hour hour;
-    private final Minute minute;
-    private final Second second;
-
     public GST(Year year, Month month, Day day, Hour hour, Minute minute, Second second) {
-        this.value = java.time.LocalDate.of(year.getValue(), month.getValue(), day.getValue());
-        this.hour = hour;
-        this.minute = minute;
-        this.second = second;
-    }
-
-    public Year getYear() {
-        return new Year(value.getYear());
-    }
-
-    public Month getMonth() {
-        return new Month(value.getMonthValue());
-    }
-
-    public Day getDay() {
-        return new Day(value.getDayOfMonth());
-    }
-
-    public Hour getHour() {
-        return hour;
-    }
-
-    public Minute getMinute() {
-        return minute;
-    }
-
-    public Second getSecond() {
-        return second;
+        super(year, month, day, hour, minute, second);
     }
 
     public UT toUT() {
@@ -75,7 +43,7 @@ public class GST implements Date {
             System.out.println("Greenwich Mean Sidereal Time at 0h UT was >= 24, normalized to: " + t0);
         }
 
-         double gstHours = hour.getValue() + minute.getValue() / 60.0 + second.getValue() / 3600.0;
+         double gstHours = getHour().getValue() + getMinute().getValue() / 60.0 + getSecond().getValue() / 3600.0;
          System.out.println("GST in hours: " + gstHours);
          
          // If GST is less than t0, we've wrapped around midnight, so add 24
@@ -90,7 +58,7 @@ public class GST implements Date {
 
          // Handle day boundary crossings (should rarely happen now)
          java.time.LocalDateTime dateTime = java.time.LocalDateTime.of(
-            value.getYear(), value.getMonthValue(), value.getDayOfMonth(), 0, 0, 0);
+            getYear().getValue(), getMonth().getValue(), getDay().getValue(), 0, 0, 0);
 
          while(utHours < 0) {
             utHours += 24;
@@ -120,7 +88,7 @@ public class GST implements Date {
 
     public LST toLST(Degree longitude) {
         // Convert GST to Decimal Hours
-        double gstHours = hour.getValue() + minute.getValue() / 60.0 + second.getValue() / 3600.0;
+        double gstHours = getHour().getValue() + getMinute().getValue() / 60.0 + getSecond().getValue() / 3600.0;
         System.out.println("GST in hours: " + gstHours);
 
         double offset = longitude.getValue() / 15.0; // Convert longitude to hours
@@ -130,7 +98,7 @@ public class GST implements Date {
 
         // Handle day boundary crossings
         java.time.LocalDateTime dateTime = java.time.LocalDateTime.of(
-            value.getYear(), value.getMonthValue(), value.getDayOfMonth(), 0, 0, 0);
+            getYear().getValue(), getMonth().getValue(), getDay().getValue(), 0, 0, 0);
 
         while(lstHours < 0) {
             lstHours += 24;
