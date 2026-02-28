@@ -111,7 +111,7 @@ public class TimeTest {
     }
 
     @ParameterizedTest(name = "year {0} is leap year: {1}")
-    @CsvSource({"1984, true", "1974, false", "2000, true", "1900, false"})
+    @CsvSource({ "1984, true", "1974, false", "2000, true", "1900, false" })
     void givenYear_whenRequestIsLeapYear_thenCorrect(int yearValue, boolean expected) {
         Year year = new Year(yearValue);
         assertEquals(expected, year.isLeapYear());
@@ -123,33 +123,32 @@ public class TimeTest {
         JulianDate julianDate = date.toJulianDayNumber();
         assertEquals(2455501.5, julianDate.getValue());
     }
-    
+
     @ParameterizedTest(name = "Date UT {0}-{1}-{2} {3}:{4}:{5} corresponds to Julian Date {6}")
-    @CsvSource(
-        {"2015, 5, 10, 6, 0, 0, 2457152.75",
-        "2015, 5, 10, 18, 0, 0, 2457153.25",
-        "1776, 7, 4, 0, 0, 0, 2369915.5",
-        "2010, 5, 6, 12, 0, 0, 2455323.0",
-        "2012, 4, 1, 20, 52, 48, 2456019.37"
-        }
-    )
-    void givenADateWithTime_whenConvertToJulianDayNumber_thenCorrect(int year, int month, int day, int hour, int minute, int second, double expectedJulianDate) {
-        UT date = new UT(new Year(year), new Month(month), new Day(day), new Hour(hour), new Minute(minute), new Second(second));
+    @CsvSource({ "2015, 5, 10, 6, 0, 0, 2457152.75",
+            "2015, 5, 10, 18, 0, 0, 2457153.25",
+            "1776, 7, 4, 0, 0, 0, 2369915.5",
+            "2010, 5, 6, 12, 0, 0, 2455323.0",
+            "2012, 4, 1, 20, 52, 48, 2456019.37"
+    })
+    void givenADateWithTime_whenConvertToJulianDayNumber_thenCorrect(int year, int month, int day, int hour, int minute,
+            int second, double expectedJulianDate) {
+        UT date = new UT(new Year(year), new Month(month), new Day(day), new Hour(hour), new Minute(minute),
+                new Second(second));
         JulianDate julianDate = date.toJulianDayNumber();
         assertEquals(expectedJulianDate, julianDate.getValue());
     }
 
     @ParameterizedTest(name = "Julian Date {6} corresponds to Date UT {0}-{1}-{2} {3}:{4}:{5}")
-    @CsvSource(
-        {"2015, 5, 10, 6, 0, 0, 2457152.75",
-        "2015, 5, 10, 18, 0, 0, 2457153.25",
-        "1776, 7, 4, 0, 0, 0, 2369915.5",
-        "2010, 5, 6, 12, 0, 0, 2455323.0",
-        "2012, 4, 1, 20, 52, 48, 2456019.37"
-        }
-    )
-    void givenAJulianDate_whenConvertToDate_thenCorrect(int year, int month, int day, int hour, int minute, int second, double expectedJulianDate) {
-        JulianDate julianDate = new JulianDate(expectedJulianDate); 
+    @CsvSource({ "2015, 5, 10, 6, 0, 0, 2457152.75",
+            "2015, 5, 10, 18, 0, 0, 2457153.25",
+            "1776, 7, 4, 0, 0, 0, 2369915.5",
+            "2010, 5, 6, 12, 0, 0, 2455323.0",
+            "2012, 4, 1, 20, 52, 48, 2456019.37"
+    })
+    void givenAJulianDate_whenConvertToDate_thenCorrect(int year, int month, int day, int hour, int minute, int second,
+            double expectedJulianDate) {
+        JulianDate julianDate = new JulianDate(expectedJulianDate);
         UT date = julianDate.toDate();
         assertEquals(year, date.getYear().getValue());
         assertEquals(month, date.getMonth().getValue());
@@ -158,9 +157,8 @@ public class TimeTest {
 
     @ParameterizedTest(name = "Date UT {0}-{1}-{2} corresponds to day of the week {3}")
     @CsvSource({
-        "1776, 7, 4, Thursday",
-        "2011, 9, 11, Sunday"}
-    )
+            "1776, 7, 4, Thursday",
+            "2011, 9, 11, Sunday" })
     void givenADate_whenGetDayOfTheWeek_thenCorrect(int year, int month, int day, String expectedDayOfWeek) {
         UT date = new UT(new Year(year), new Month(month), new Day(day));
         assertEquals(expectedDayOfWeek, date.getDayOfWeek());
@@ -182,11 +180,11 @@ public class TimeTest {
 
     @ParameterizedTest(name = "Longitude {0} corresponds to time zone offset {1}")
     @CsvSource({
-        "0, 0",
-        "15, 1",
-        "30, 2",
-        "-15, -1",
-        "-30, -2"
+            "0, 0",
+            "15, 1",
+            "30, 2",
+            "-15, -1",
+            "-30, -2"
     })
     void givenALongitude_whenRequestTimeZoneOffset_thenCorrect(int longitudeValue, int expectedOffset) {
         Degree longitude = new Degree(longitudeValue);
@@ -196,11 +194,11 @@ public class TimeTest {
 
     @ParameterizedTest(name = "Longitude {0} corresponds to time zone offset {1}")
     @CsvSource({
-        "0, 0",
-        "15, 1",
-        "30, 2",
-        "-15, -1",
-        "-30, -2"
+            "0, 0",
+            "15, 1",
+            "30, 2",
+            "-15, -1",
+            "-30, -2"
     })
     void givenALongitudeInDms_whenRequestTimeZoneOffset_thenCorrect(int longitudeValue, int expectedOffset) {
         Dms longitude = new Dms(new Degree(longitudeValue), new ArcMinute(0), new ArcSecond(0), false);
@@ -213,9 +211,9 @@ public class TimeTest {
         LCT lct = new LCT(new Year(2020), new Month(1), new Day(1), new Hour(12), new Minute(0), new Second(0), 2);
         UT ut = lct.toUT();
         assertAll(() -> assertEquals(2020, ut.getYear().getValue()),
-                  () -> assertEquals(1, ut.getMonth().getValue()),
-                  () -> assertEquals(1, ut.getDay().getValue()),
-                  () -> assertEquals(10, ut.getHour().getValue()));
+                () -> assertEquals(1, ut.getMonth().getValue()),
+                () -> assertEquals(1, ut.getDay().getValue()),
+                () -> assertEquals(10, ut.getHour().getValue()));
     }
 
     @Test
@@ -223,9 +221,9 @@ public class TimeTest {
         UT ut = new UT(new Year(2020), new Month(1), new Day(1), new Hour(10), new Minute(0), new Second(0));
         LCT lct = ut.toLCT(2);
         assertAll(() -> assertEquals(2020, lct.toUT().getYear().getValue()),
-                  () -> assertEquals(1, lct.toUT().getMonth().getValue()),
-                  () -> assertEquals(1, lct.toUT().getDay().getValue()),
-                  () -> assertEquals(10, lct.toUT().getHour().getValue()));
+                () -> assertEquals(1, lct.toUT().getMonth().getValue()),
+                () -> assertEquals(1, lct.toUT().getDay().getValue()),
+                () -> assertEquals(10, lct.toUT().getHour().getValue()));
     }
 
     @Test
@@ -233,9 +231,9 @@ public class TimeTest {
         UT ut = new UT(new Year(2020), new Month(1), new Day(1), new Hour(10), new Minute(0), new Second(0));
         LCT lct = ut.toLCT(-2);
         assertAll(() -> assertEquals(2020, lct.toUT().getYear().getValue()),
-                  () -> assertEquals(1, lct.toUT().getMonth().getValue()),
-                  () -> assertEquals(1, lct.toUT().getDay().getValue()),
-                  () -> assertEquals(10, lct.toUT().getHour().getValue()));
+                () -> assertEquals(1, lct.toUT().getMonth().getValue()),
+                () -> assertEquals(1, lct.toUT().getDay().getValue()),
+                () -> assertEquals(10, lct.toUT().getHour().getValue()));
     }
 
     @Test
@@ -245,13 +243,13 @@ public class TimeTest {
         UT utRoundTrip = lct.toUT();
 
         assertAll(() -> assertEquals(2020, lct.getYear().getValue()),
-                  () -> assertEquals(1, lct.getMonth().getValue()),
-                  () -> assertEquals(2, lct.getDay().getValue()),
-                  () -> assertEquals(1, lct.getHour().getValue()),
-                  () -> assertEquals(2020, utRoundTrip.getYear().getValue()),
-                  () -> assertEquals(1, utRoundTrip.getMonth().getValue()),
-                  () -> assertEquals(1, utRoundTrip.getDay().getValue()),
-                  () -> assertEquals(23, utRoundTrip.getHour().getValue()));
+                () -> assertEquals(1, lct.getMonth().getValue()),
+                () -> assertEquals(2, lct.getDay().getValue()),
+                () -> assertEquals(1, lct.getHour().getValue()),
+                () -> assertEquals(2020, utRoundTrip.getYear().getValue()),
+                () -> assertEquals(1, utRoundTrip.getMonth().getValue()),
+                () -> assertEquals(1, utRoundTrip.getDay().getValue()),
+                () -> assertEquals(23, utRoundTrip.getHour().getValue()));
     }
 
 }
