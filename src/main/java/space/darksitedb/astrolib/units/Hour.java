@@ -16,7 +16,7 @@ public class Hour extends Unit implements Time {
     }
 
     @Override
-    public Hour toHours() {
+    public Hour toDecimalHours() {
         return this;
     }
 

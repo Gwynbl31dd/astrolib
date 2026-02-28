@@ -9,7 +9,7 @@ public interface Time {
 
     Degree toDegrees();
 
-    Hour toHours();
+    Hour toDecimalHours();
 
     Hms toHms();
 

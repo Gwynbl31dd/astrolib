@@ -1,7 +1,5 @@
 package space.darksitedb.astrolib.units;
 
-import java.time.LocalDateTime;
-
 /**
  * Represents Greenwich Sidereal Time (GST).
  * 
@@ -67,9 +65,10 @@ public class GST extends Date {
     }
 
     public LST toLST(Degree longitude) {
+
+        Hms gstHms = new Hms(getHour(),getMinute(),getSecond());
         // Convert GST to Decimal Hours
-        double gstHours = getHour().getValue() 
-            + getMinute().getValue() / 60.0 + getSecond().getValue() / 3600.0;
+        double gstHours = gstHms.toDecimalHours().getValue();
 
         double offset = longitude.getValue() / 15.0; // Convert longitude to hours
         // Adjust GST for longitude offset to get LST
