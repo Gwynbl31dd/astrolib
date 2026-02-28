@@ -95,20 +95,6 @@ module space.darksitedb.astrolib {
 Consumers using JPMS can depend on it directly.
 Non-module consumers will use the Automatic-Module-Name defined in the JAR manifest.
 
-## Formatting & Style
-
-* Spotless handles formatting (Google Java Format)
-
-* Checkstyle enforces basic style and bug-prevention rules
-
-* Formatting is checked during verify
-
-If Spotless fails:
-
-```bash
-mvn spotless:apply
-```
-
 ## Versioning
 
 This project follows semantic versioning:
