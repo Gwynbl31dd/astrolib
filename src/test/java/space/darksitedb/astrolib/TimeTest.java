@@ -9,6 +9,7 @@ import space.darksitedb.astrolib.time.Day;
 import space.darksitedb.astrolib.time.GST;
 import space.darksitedb.astrolib.time.JulianDate;
 import space.darksitedb.astrolib.time.LCT;
+import space.darksitedb.astrolib.time.LST;
 import space.darksitedb.astrolib.time.Month;
 import space.darksitedb.astrolib.time.Year;
 import space.darksitedb.astrolib.units.*;
@@ -326,13 +327,43 @@ public class TimeTest {
     }
 
     @Test
-    void givenADateInGst_whenConvertToLCT_thenCorrect() {
-        GST gst = new GST(new Year(2020), new Month(1), new Day(1), new Hour(12), new Minute(0), new Second(0));
-        LCT lct = gst.toLCT(2);
-        assertAll(() -> assertEquals(2020, lct.getYear().getValue()),
-                () -> assertEquals(1, lct.getMonth().getValue()),
-                () -> assertEquals(1, lct.getDay().getValue()),
-                () -> assertEquals(14, lct.getHour().getValue()));
+    void givenADateInGst_whenConvertToLST_thenCorrect() {
+        GST gst = new GST(new Year(2020), new Month(1), new Day(1), new Hour(2), new Minute(3), new Second(41.0));
+        LST lst = gst.toLST(new Degree(-40));
+        
+        // Longitude -40° = -2.667 hours offset
+        // LST = GST + offset = 2:03:41 - 2:40:00 = -0:36:19 → wraps to previous day 23:23:41
+        assertAll(() -> assertEquals(2019, lst.getYear().getValue()),
+                () -> assertEquals(12, lst.getMonth().getValue()),
+                () -> assertEquals(31, lst.getDay().getValue()),
+                () -> assertEquals(23, lst.getHour().getValue()),
+                () -> assertEquals(23, lst.getMinute().getValue()),
+                () -> assertEquals(41.0, lst.getSecond().getValue(), 1e-9));
+    }
+
+    @Test
+    void givenGSTEarlyMorning_whenConvertToLSTWithNegativeLongitude_thenGoesToPreviousDay() {
+        // GST early in morning + large negative longitude offset crosses to previous day
+        GST gst = new GST(new Year(2020), new Month(3), new Day(15), new Hour(1), new Minute(0), new Second(0));
+        LST lst = gst.toLST(new Degree(-50));
+        
+        // Longitude -50° = -3.333 hours, LST = 1 - 3.333 = -2.333 → previous day
+        assertAll(() -> assertEquals(2020, lst.getYear().getValue()),
+                () -> assertEquals(3, lst.getMonth().getValue()),
+                () -> assertEquals(14, lst.getDay().getValue()));
+    }
+
+    @Test
+    void givenGSTLateNight_whenConvertToLSTWithPositiveLongitude_thenGoesToNextDay() {
+        // GST late at night + large positive longitude offset crosses to next day
+        GST gst = new GST(new Year(2020), new Month(3), new Day(15), new Hour(23), new Minute(0), new Second(0));
+        LST lst = gst.toLST(new Degree(100));
+        
+        // Longitude 100° = 6.667 hours, LST = 23 + 6.667 = 29.667 → next day 5:40
+        assertAll(() -> assertEquals(2020, lst.getYear().getValue()),
+                () -> assertEquals(3, lst.getMonth().getValue()),
+                () -> assertEquals(16, lst.getDay().getValue()),
+                () -> assertEquals(5, lst.getHour().getValue()));
     }
 
 }

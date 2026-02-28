@@ -1,5 +1,6 @@
 package space.darksitedb.astrolib.time;
 
+import space.darksitedb.astrolib.units.Degree;
 import space.darksitedb.astrolib.units.Hms;
 import space.darksitedb.astrolib.units.Hour;
 import space.darksitedb.astrolib.units.Minute;
@@ -123,10 +124,41 @@ public class GST implements Date {
         return ut;
     }
 
-    public LCT toLCT(int timeZoneOffset) {
-        throw new UnsupportedOperationException("Unimplemented method 'toLCT'");
+    public LST toLST(Degree longitude) {
+        // Convert GST to Decimal Hours
+        double gstHours = hour.getValue() + minute.getValue() / 60.0 + second.getValue() / 3600.0;
+        System.out.println("GST in hours: " + gstHours);
+
+        double offset = longitude.getValue() / 15.0; // Convert longitude to hours
+        // Adjust GST for longitude offset to get LST
+        double lstHours = gstHours + offset;
+        System.out.println("LST in hours before normalization: " + lstHours);
+
+        // Handle day boundary crossings
+        java.time.LocalDateTime dateTime = java.time.LocalDateTime.of(
+            value.getYear(), value.getMonthValue(), value.getDayOfMonth(), 0, 0, 0);
+
+        while(lstHours < 0) {
+            lstHours += 24;
+            dateTime = dateTime.minusDays(1);
+            System.out.println("LST was negative, normalized to: " + lstHours + ", moved to previous day");
+        }
+        while(lstHours >= 24) {
+            lstHours -= 24;
+            dateTime = dateTime.plusDays(1);
+            System.out.println("LST was >= 24, normalized to: " + lstHours + ", moved to next day");
+        }
+
+        Hms lstHms = new Hms(new Hour(lstHours));
+        System.out.println("LST (HMS): " + lstHms);
+
+        return new LST(
+            new Year(dateTime.getYear()),
+            new Month(dateTime.getMonthValue()),
+            new Day(dateTime.getDayOfMonth()),
+            lstHms.getHour(),
+            lstHms.getMinute(),
+            lstHms.getSecond()
+        );
     }
-
-
-
 }
