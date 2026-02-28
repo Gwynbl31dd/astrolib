@@ -19,7 +19,7 @@ public class LCT implements Date {
     private final Hour hour;
     private final Minute minute;
     private final Second second;
-    
+
     private int timeZoneOffset; // Time zone offset in hours from UTC
 
     public LCT(Year year, Month month, Day day, Hour hour, Minute minute, Second second, int timeZoneOffset) {
@@ -75,6 +75,14 @@ public class LCT implements Date {
         java.time.LocalDateTime localDateTime = java.time.LocalDateTime.of(value.getYear(), value.getMonthValue(), value.getDayOfMonth(), (int) hour.getValue(), (int) minute.getValue(), (int) second.getValue());
         java.time.LocalDateTime utcDateTime = localDateTime.minusHours(timeZoneOffset);
         return new UT(new Year(utcDateTime.getYear()), new Month(utcDateTime.getMonthValue()), new Day(utcDateTime.getDayOfMonth()), new Hour(utcDateTime.getHour()), new Minute(utcDateTime.getMinute()), new Second(utcDateTime.getSecond()));
+    }
+
+    public GST toGST() {
+        return toUT().toGST();
+    }
+
+    public LST toLST(Degree longitude) {
+        return toGST().toLST(longitude);
     }
 
 }

@@ -366,4 +366,121 @@ public class TimeTest {
                 () -> assertEquals(5, lst.getHour().getValue()));
     }
 
+    @Test
+    void givenLst_whenConvertToGST_thenCorrect() {
+        LST lst = new LST(new Year(2020), new Month(1), new Day(1), new Hour(23), new Minute(23), new Second(41.0));
+        GST gst = lst.toGST(new Degree(50));
+        
+        // Longitude 50° = 3.333 hours, GST = LST - offset = 23:23:41 - 3:20:00 = 20:03:41 → same day
+        assertAll(() -> assertEquals(2020, gst.getYear().getValue()),
+                () -> assertEquals(1, gst.getMonth().getValue()),
+                () -> assertEquals(1, gst.getDay().getValue()),
+                () -> assertEquals(20, gst.getHour().getValue()),
+                () -> assertEquals(3, gst.getMinute().getValue()),
+                () -> assertEquals(41.0, gst.getSecond().getValue(), 1e-9));
+    }
+
+    @Test
+    void givenLSTEarlyMorning_whenConvertToGSTWithPositiveLongitude_thenGoesToPreviousDay() {
+        // LST early in morning - large positive longitude offset crosses to previous day
+        LST lst = new LST(new Year(2020), new Month(3), new Day(15), new Hour(2), new Minute(0), new Second(0));
+        GST gst = lst.toGST(new Degree(60));
+        
+        // Longitude 60° = 4 hours, GST = 2 - 4 = -2 → previous day 22:00
+        assertAll(() -> assertEquals(2020, gst.getYear().getValue()),
+                () -> assertEquals(3, gst.getMonth().getValue()),
+                () -> assertEquals(14, gst.getDay().getValue()),
+                () -> assertEquals(22, gst.getHour().getValue()));
+    }
+
+    @Test
+    void givenLSTLateNight_whenConvertToGSTWithNegativeLongitude_thenGoesToNextDay() {
+        // LST late at night - negative longitude offset crosses to next day
+        LST lst = new LST(new Year(2020), new Month(3), new Day(15), new Hour(22), new Minute(0), new Second(0));
+        GST gst = lst.toGST(new Degree(-100));
+        
+        // Longitude -100° = -6.667 hours, GST = 22 - (-6.667) = 28.667 → next day 4:40
+        assertAll(() -> assertEquals(2020, gst.getYear().getValue()),
+                () -> assertEquals(3, gst.getMonth().getValue()),
+                () -> assertEquals(16, gst.getDay().getValue()),
+                () -> assertEquals(4, gst.getHour().getValue()));
+    }
+
+    @Test
+    void givenADateTimeInLCT_whenConvertToAll_thenIsCorrect(){
+        Year year = new Year(2014);
+        Month month = new Month(12);
+        Day day = new Day(12);
+        Degree longitude = new Degree(-77);
+
+        int offset = LCT.getTimeZoneOffsetFromLongitude(longitude);
+
+        LCT lct = new LCT(year, month, day, new Hour(20), new Minute(0), new Second(0), offset);
+
+        UT ut = lct.toUT(); 
+
+        assertAll(() -> assertEquals(2014, ut.getYear().getValue()),
+                () -> assertEquals(12, ut.getMonth().getValue()),
+                () -> assertEquals(13, ut.getDay().getValue()),
+                () -> assertEquals(1, ut.getHour().getValue()),
+                () -> assertEquals(0, ut.getMinute().getValue()),
+                () -> assertEquals(0, ut.getSecond().getValue()));
+
+        GST gst = lct.toGST();
+
+        assertAll(() -> assertEquals(2014, gst.getYear().getValue()),
+                () -> assertEquals(12, gst.getMonth().getValue()),
+                () -> assertEquals(13, gst.getDay().getValue()),
+                () -> assertEquals(6, gst.getHour().getValue()),
+                () -> assertEquals(26, gst.getMinute().getValue()),
+                () -> assertEquals(34, (int) gst.getSecond().getValue()));
+
+        LST lst = lct.toLST(longitude);
+
+        assertAll(() -> assertEquals(2014, lst.getYear().getValue()),
+                () -> assertEquals(12, lst.getMonth().getValue()),
+                () -> assertEquals(13, lst.getDay().getValue()),
+                () -> assertEquals(1, lst.getHour().getValue()),
+                () -> assertEquals(18, lst.getMinute().getValue()),
+                () -> assertEquals(34, (int) lst.getSecond().getValue()));
+    }
+
+    @Test
+    void givenADateInLST_whenConvertToAll_thenCorrect(){
+        Year year = new Year(2000);
+        Month month = new Month(7);
+        Day day = new Day(5);
+        Degree longitude = new Degree(60);
+
+        int offset = LCT.getTimeZoneOffsetFromLongitude(longitude);
+
+        LST lst = new LST(year, month, day, new Hour(5), new Minute(54), new Second(20));
+
+        GST gst = lst.toGST(longitude);
+
+        assertAll(() -> assertEquals(year.getValue(), gst.getYear().getValue()),
+                () -> assertEquals(month.getValue(), gst.getMonth().getValue()),
+                () -> assertEquals(day.getValue(), gst.getDay().getValue()),
+                () -> assertEquals(1, gst.getHour().getValue()),
+                () -> assertEquals(54, gst.getMinute().getValue()),
+                () -> assertEquals(20, (int) gst.getSecond().getValue()));
+
+        UT ut = lst.toUT(longitude);
+
+        assertAll(() -> assertEquals(year.getValue(), ut.getYear().getValue()),
+                () -> assertEquals(month.getValue(), ut.getMonth().getValue()),
+                () -> assertEquals(day.getValue(), ut.getDay().getValue()),
+                () -> assertEquals(6, ut.getHour().getValue()),
+                () -> assertEquals(59, ut.getMinute().getValue()),
+                () -> assertEquals(59, (int) ut.getSecond().getValue()));
+
+        LCT lct = ut.toLCT(offset);
+
+        assertAll(() -> assertEquals(year.getValue(), lct.getYear().getValue()),
+                () -> assertEquals(month.getValue(), lct.getMonth().getValue()),
+                () -> assertEquals(day.getValue(), lct.getDay().getValue()),
+                () -> assertEquals(10, lct.getHour().getValue()),
+                () -> assertEquals(59, lct.getMinute().getValue()),
+                () -> assertEquals(59, (int) lct.getSecond().getValue()));
+    }
 }
