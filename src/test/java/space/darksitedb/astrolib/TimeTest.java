@@ -1,5 +1,6 @@
 package space.darksitedb.astrolib;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -150,9 +151,9 @@ public class TimeTest {
     void givenAJulianDate_whenConvertToDate_thenCorrect(int year, int month, int day, int hour, int minute, int second, double expectedJulianDate) {
         JulianDate julianDate = new JulianDate(expectedJulianDate); 
         UT date = julianDate.toDate();
-        assertEquals(year, date.getYear());
-        assertEquals(month, date.getMonth());
-        assertEquals(day, date.getDay());
+        assertEquals(year, date.getYear().getValue());
+        assertEquals(month, date.getMonth().getValue());
+        assertEquals(day, date.getDay().getValue());
     }
 
     @ParameterizedTest(name = "Date UT {0}-{1}-{2} corresponds to day of the week {3}")
@@ -174,9 +175,9 @@ public class TimeTest {
     @Test
     void givenADateWithDays_whenRequestDate_thenCorrect() {
         UT date = new UT(new Year(1900), new Day(250));
-        assertEquals(1900, date.getYear());
-        assertEquals(9, date.getMonth());
-        assertEquals(7, date.getDay());
+        assertEquals(1900, date.getYear().getValue());
+        assertEquals(9, date.getMonth().getValue());
+        assertEquals(7, date.getDay().getValue());
     }
 
     @ParameterizedTest(name = "Longitude {0} corresponds to time zone offset {1}")
@@ -205,6 +206,52 @@ public class TimeTest {
         Dms longitude = new Dms(new Degree(longitudeValue), new ArcMinute(0), new ArcSecond(0), false);
         int offset = LCT.getTimeZoneOffsetFromLongitude(longitude);
         assertEquals(expectedOffset, offset);
+    }
+
+    @Test
+    void givenADateIsInLct_whenRequestUT_thenCorrect() {
+        LCT lct = new LCT(new Year(2020), new Month(1), new Day(1), new Hour(12), new Minute(0), new Second(0), 2);
+        UT ut = lct.toUT();
+        assertAll(() -> assertEquals(2020, ut.getYear().getValue()),
+                  () -> assertEquals(1, ut.getMonth().getValue()),
+                  () -> assertEquals(1, ut.getDay().getValue()),
+                  () -> assertEquals(10, ut.getHour().getValue()));
+    }
+
+    @Test
+    void givenADateIsInUT_whenRequestLCT_thenCorrect() {
+        UT ut = new UT(new Year(2020), new Month(1), new Day(1), new Hour(10), new Minute(0), new Second(0));
+        LCT lct = ut.toLCT(2);
+        assertAll(() -> assertEquals(2020, lct.toUT().getYear().getValue()),
+                  () -> assertEquals(1, lct.toUT().getMonth().getValue()),
+                  () -> assertEquals(1, lct.toUT().getDay().getValue()),
+                  () -> assertEquals(10, lct.toUT().getHour().getValue()));
+    }
+
+    @Test
+    void givenADateIsInUT_whenRequestLCTWithNegativeOffset_thenCorrect() {
+        UT ut = new UT(new Year(2020), new Month(1), new Day(1), new Hour(10), new Minute(0), new Second(0));
+        LCT lct = ut.toLCT(-2);
+        assertAll(() -> assertEquals(2020, lct.toUT().getYear().getValue()),
+                  () -> assertEquals(1, lct.toUT().getMonth().getValue()),
+                  () -> assertEquals(1, lct.toUT().getDay().getValue()),
+                  () -> assertEquals(10, lct.toUT().getHour().getValue()));
+    }
+
+    @Test
+    void givenADateIsInUT_whenRequestLCTWithOffsetThatCrossesDayBoundary_thenCorrect() {
+        UT ut = new UT(new Year(2020), new Month(1), new Day(1), new Hour(23), new Minute(0), new Second(0));
+        LCT lct = ut.toLCT(2);
+        UT utRoundTrip = lct.toUT();
+
+        assertAll(() -> assertEquals(2020, lct.getYear().getValue()),
+                  () -> assertEquals(1, lct.getMonth().getValue()),
+                  () -> assertEquals(2, lct.getDay().getValue()),
+                  () -> assertEquals(1, lct.getHour().getValue()),
+                  () -> assertEquals(2020, utRoundTrip.getYear().getValue()),
+                  () -> assertEquals(1, utRoundTrip.getMonth().getValue()),
+                  () -> assertEquals(1, utRoundTrip.getDay().getValue()),
+                  () -> assertEquals(23, utRoundTrip.getHour().getValue()));
     }
 
 }

@@ -46,16 +46,28 @@ public class UT implements Date {
         this(year, month, day, hour, new Minute(0), new Second(0));
     }
 
-    public int getYear() {
-        return value.getYear();
+    public Year getYear() {
+        return new Year(value.getYear());
     }
 
-    public int getMonth() {
-        return value.getMonthValue();
+    public Month getMonth() {
+        return new Month(value.getMonthValue());
     }
 
-    public int getDay() {
-        return value.getDayOfMonth();
+    public Day getDay() {
+        return new Day(value.getDayOfMonth());
+    }
+
+    public Hour getHour() {
+        return hour;
+    }
+
+    public Minute getMinute() {
+        return minute;
+    }
+
+    public Second getSecond() {
+        return second;
     }
 
     /**
@@ -67,9 +79,9 @@ public class UT implements Date {
      * @return the Julian Day Number corresponding to this date
      */
     public JulianDate toJulianDayNumber() {
-        int year = getYear();
-        int month = getMonth();
-        int day = getDay();
+        int year = getYear().getValue();
+        int month = getMonth().getValue();
+        int day = getDay().getValue();
 
         if (month <= 2) {
             year--;
@@ -96,6 +108,13 @@ public class UT implements Date {
 
     public Integer getDayOfYear() {
         return value.getDayOfYear();
+    }
+
+    public LCT toLCT(int timeZoneOffset) {
+        // Convert UT to LCT by adding the time zone offset
+        java.time.LocalDateTime utcDateTime = java.time.LocalDateTime.of(value.getYear(), value.getMonthValue(), value.getDayOfMonth(), (int) hour.getValue(), (int) minute.getValue(), (int) second.getValue());
+        java.time.LocalDateTime localDateTime = utcDateTime.plusHours(timeZoneOffset);
+        return new LCT(new Year(localDateTime.getYear()), new Month(localDateTime.getMonthValue()), new Day(localDateTime.getDayOfMonth()), new Hour(localDateTime.getHour()), new Minute(localDateTime.getMinute()), new Second(localDateTime.getSecond()), timeZoneOffset);
     }
 
 }

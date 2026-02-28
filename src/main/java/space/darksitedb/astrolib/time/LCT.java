@@ -45,4 +45,35 @@ public class LCT implements Date {
         return getTimeZoneOffsetFromLongitude(longitude.toDegrees());
     }
 
+    public Year getYear() {
+        return new Year(value.getYear());
+    }
+
+    public Month getMonth() {
+        return new Month(value.getMonthValue());
+    }
+
+    public Day getDay() {
+        return new Day(value.getDayOfMonth());
+    }
+
+    public Hour getHour() {
+        return hour;
+    }
+
+    public Minute getMinute() {
+        return minute;
+    }
+
+    public Second getSecond() {
+        return second;
+    }
+
+    public UT toUT() {
+        // Convert LCT to UT by subtracting the time zone offset
+        java.time.LocalDateTime localDateTime = java.time.LocalDateTime.of(value.getYear(), value.getMonthValue(), value.getDayOfMonth(), (int) hour.getValue(), (int) minute.getValue(), (int) second.getValue());
+        java.time.LocalDateTime utcDateTime = localDateTime.minusHours(timeZoneOffset);
+        return new UT(new Year(utcDateTime.getYear()), new Month(utcDateTime.getMonthValue()), new Day(utcDateTime.getDayOfMonth()), new Hour(utcDateTime.getHour()), new Minute(utcDateTime.getMinute()), new Second(utcDateTime.getSecond()));
+    }
+
 }
