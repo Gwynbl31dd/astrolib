@@ -3,9 +3,10 @@ package space.darksitedb.astrolib;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import space.darksitedb.astrolib.time.Date;
+import space.darksitedb.astrolib.time.UT;
 import space.darksitedb.astrolib.time.Day;
 import space.darksitedb.astrolib.time.JulianDate;
+import space.darksitedb.astrolib.time.LCT;
 import space.darksitedb.astrolib.time.Month;
 import space.darksitedb.astrolib.time.Year;
 import space.darksitedb.astrolib.units.*;
@@ -117,7 +118,7 @@ public class TimeTest {
 
     @Test
     void givenADate_whenConvertToJulianDayNumber_thenCorrect() {
-        Date date = new Date(new Year(2010), new Month(11), new Day(1));
+        UT date = new UT(new Year(2010), new Month(11), new Day(1));
         JulianDate julianDate = date.toJulianDayNumber();
         assertEquals(2455501.5, julianDate.getValue());
     }
@@ -132,7 +133,7 @@ public class TimeTest {
         }
     )
     void givenADateWithTime_whenConvertToJulianDayNumber_thenCorrect(int year, int month, int day, int hour, int minute, int second, double expectedJulianDate) {
-        Date date = new Date(new Year(year), new Month(month), new Day(day), new Hour(hour), new Minute(minute), new Second(second));
+        UT date = new UT(new Year(year), new Month(month), new Day(day), new Hour(hour), new Minute(minute), new Second(second));
         JulianDate julianDate = date.toJulianDayNumber();
         assertEquals(expectedJulianDate, julianDate.getValue());
     }
@@ -148,7 +149,7 @@ public class TimeTest {
     )
     void givenAJulianDate_whenConvertToDate_thenCorrect(int year, int month, int day, int hour, int minute, int second, double expectedJulianDate) {
         JulianDate julianDate = new JulianDate(expectedJulianDate); 
-        Date date = julianDate.toDate();
+        UT date = julianDate.toDate();
         assertEquals(year, date.getYear());
         assertEquals(month, date.getMonth());
         assertEquals(day, date.getDay());
@@ -160,22 +161,50 @@ public class TimeTest {
         "2011, 9, 11, Sunday"}
     )
     void givenADate_whenGetDayOfTheWeek_thenCorrect(int year, int month, int day, String expectedDayOfWeek) {
-        Date date = new Date(new Year(year), new Month(month), new Day(day));
+        UT date = new UT(new Year(year), new Month(month), new Day(day));
         assertEquals(expectedDayOfWeek, date.getDayOfWeek());
     }
 
     @Test
     void givenDate_whenRequestHowManyDaysIntoTheYear_thenCorrect() {
-        Date date = new Date(new Year(2009), new Month(10), new Day(30));
+        UT date = new UT(new Year(2009), new Month(10), new Day(30));
         assertEquals(303, date.getDayOfYear());
     }
 
     @Test
     void givenADateWithDays_whenRequestDate_thenCorrect() {
-        Date date = new Date(new Year(1900), new Day(250));
+        UT date = new UT(new Year(1900), new Day(250));
         assertEquals(1900, date.getYear());
         assertEquals(9, date.getMonth());
         assertEquals(7, date.getDay());
+    }
+
+    @ParameterizedTest(name = "Longitude {0} corresponds to time zone offset {1}")
+    @CsvSource({
+        "0, 0",
+        "15, 1",
+        "30, 2",
+        "-15, -1",
+        "-30, -2"
+    })
+    void givenALongitude_whenRequestTimeZoneOffset_thenCorrect(int longitudeValue, int expectedOffset) {
+        Degree longitude = new Degree(longitudeValue);
+        int offset = LCT.getTimeZoneOffsetFromLongitude(longitude);
+        assertEquals(expectedOffset, offset);
+    }
+
+    @ParameterizedTest(name = "Longitude {0} corresponds to time zone offset {1}")
+    @CsvSource({
+        "0, 0",
+        "15, 1",
+        "30, 2",
+        "-15, -1",
+        "-30, -2"
+    })
+    void givenALongitudeInDms_whenRequestTimeZoneOffset_thenCorrect(int longitudeValue, int expectedOffset) {
+        Dms longitude = new Dms(new Degree(longitudeValue), new ArcMinute(0), new ArcSecond(0), false);
+        int offset = LCT.getTimeZoneOffsetFromLongitude(longitude);
+        assertEquals(expectedOffset, offset);
     }
 
 }

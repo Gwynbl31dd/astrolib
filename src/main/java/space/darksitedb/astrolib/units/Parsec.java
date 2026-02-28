@@ -3,7 +3,6 @@ package space.darksitedb.astrolib.units;
 public class Parsec extends Unit implements Length {
 
     private static final double TO_LIGHTYEARS = 3.26156;
-    private static final double TO_AU = 206264.81;
 
     public Parsec(double value) {
         super(value);

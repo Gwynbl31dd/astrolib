@@ -12,7 +12,7 @@ public class JulianDate {
         return value;
     }
 
-    public Date toDate() {
+    public UT toDate() {
         double jd = value + 0.5;
         int Z = (int) jd;
         double F = jd - Z;
@@ -32,6 +32,6 @@ public class JulianDate {
         int month = (E < 14) ? E - 1 : E - 13;
         int year = (month > 2) ? C - 4716 : C - 4715;
 
-        return new Date(new Year(year), new Month(month), new Day(day));
+        return new UT(new Year(year), new Month(month), new Day(day));
     }
 }
