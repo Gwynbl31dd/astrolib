@@ -1,11 +1,19 @@
 package space.darksitedb.astrolib.units;
 
+import java.time.LocalDateTime;
+
 /**
  * The Date is represented as LCT (Local Civil Time)
  * 
- * LCT is a time standard that reflects the local time of a specific location on Earth, taking into account the time zone and any applicable daylight saving time adjustments.
- * It is used for everyday activities and civil purposes, such as scheduling events, coordinating transportation, and conducting business operations within a particular region.
- * LCT can vary from one location to another based on their respective time zones and daylight saving time rules, making it essential for accurate timekeeping in local contexts.
+ * LCT is a time standard that reflects the local time of a specific location on
+ * Earth, taking into account the time zone and any applicable daylight saving
+ * time adjustments.
+ * It is used for everyday activities and civil purposes, such as scheduling
+ * events, coordinating transportation, and conducting business operations
+ * within a particular region.
+ * LCT can vary from one location to another based on their respective time
+ * zones and daylight saving time rules, making it essential for accurate
+ * timekeeping in local contexts.
  */
 public class LCT extends Date {
 
@@ -26,9 +34,14 @@ public class LCT extends Date {
 
     public UT toUT() {
         // Convert LCT to UT by subtracting the time zone offset
-        java.time.LocalDateTime localDateTime = java.time.LocalDateTime.of(getYear().getValue(), getMonth().getValue(), getDay().getValue(), (int) getHour().getValue(), (int) getMinute().getValue(), (int) getSecond().getValue());
-        java.time.LocalDateTime utcDateTime = localDateTime.minusHours(timeZoneOffset);
-        return new UT(new Year(utcDateTime.getYear()), new Month(utcDateTime.getMonthValue()), new Day(utcDateTime.getDayOfMonth()), new Hour(utcDateTime.getHour()), new Minute(utcDateTime.getMinute()), new Second(utcDateTime.getSecond()));
+        LocalDateTime localDateTime = LocalDateTime.of(getYear().getValue(), getMonth().getValue(),
+                getDay().getValue(), (int) getHour().getValue(), (int) getMinute().getValue(),
+                (int) getSecond().getValue());
+
+        LocalDateTime utcDateTime = localDateTime.minusHours(timeZoneOffset);
+        return new UT(new Year(utcDateTime.getYear()), new Month(utcDateTime.getMonthValue()),
+                new Day(utcDateTime.getDayOfMonth()), new Hour(utcDateTime.getHour()),
+                new Minute(utcDateTime.getMinute()), new Second(utcDateTime.getSecond()));
     }
 
     public GST toGST() {

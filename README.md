@@ -2,14 +2,14 @@
 
 Java library for astronomical calculations.
 
-This project is a **pure Java library** (no executable entry point) built with Maven and Java 17.
+This project is a **pure Java library** (no executable entry point) built with Maven and Java 21.
 It uses JPMS (Java modules), JUnit 5, Spotless, Checkstyle, and Maven Enforcer for build hygiene.
 
 ---
 
 ## Requirements
 
-- Java **17+**
+- Java **21+**
 - Maven **3.9+**
 
 Verify your environment:
@@ -24,10 +24,6 @@ mvn --version
 Format code (recommended before commit)
 
 Applies formatting to Java sources and pom.xml:
-
-```bash
-mvn spotless:apply
-```
 
 Run full local checks
 

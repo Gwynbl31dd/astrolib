@@ -5,7 +5,7 @@ public class Day {
     private final int value;
 
     public Day(int day) {
-        if(day < 1) {
+        if (day < 1) {
             throw new IllegalArgumentException("Day must be greater than 0");
         }
         this.value = day;

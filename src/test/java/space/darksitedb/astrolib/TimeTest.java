@@ -261,7 +261,8 @@ public class TimeTest {
 
     @Test
     void givenADateGst_whenConvertToUT_thenCorrect() {
-        GST gst = new GST(new Year(2010), new Month(2), new Day(7), new Hour(8), new Minute(41), new Second(53.11848363696839));
+        GST gst = new GST(new Year(2010), new Month(2), new Day(7), new Hour(8), new Minute(41),
+                new Second(53.11848363696839));
         UT ut = gst.toUT();
 
         assertAll(() -> assertEquals(2010, ut.getYear().getValue()),
@@ -269,7 +270,7 @@ public class TimeTest {
                 () -> assertEquals(7, ut.getDay().getValue()),
                 () -> assertEquals(23, ut.getHour().getValue()),
                 () -> assertEquals(30, ut.getMinute().getValue()),
-                () -> assertEquals(0, ut.getSecond().getValue(), 1e-9));      
+                () -> assertEquals(0, ut.getSecond().getValue(), 1e-9));
     }
 
     @Test
@@ -278,7 +279,8 @@ public class TimeTest {
         UT ut = new UT(new Year(2010), new Month(3), new Day(15), new Hour(23), new Minute(0), new Second(0));
         GST gst = ut.toGST();
 
-        // Verify the conversion works (day stays same in this case, but test the mechanism)
+        // Verify the conversion works (day stays same in this case, but test the
+        // mechanism)
         assertAll(() -> assertEquals(2010, gst.getYear().getValue()),
                 () -> assertEquals(3, gst.getMonth().getValue()),
                 () -> assertEquals(15, gst.getDay().getValue()),
@@ -322,9 +324,10 @@ public class TimeTest {
     void givenADateInGst_whenConvertToLST_thenCorrect() {
         GST gst = new GST(new Year(2020), new Month(1), new Day(1), new Hour(2), new Minute(3), new Second(41.0));
         LST lst = gst.toLST(new Degree(-40));
-        
+
         // Longitude -40° = -2.667 hours offset
-        // LST = GST + offset = 2:03:41 - 2:40:00 = -0:36:19 → wraps to previous day 23:23:41
+        // LST = GST + offset = 2:03:41 - 2:40:00 = -0:36:19 → wraps to previous day
+        // 23:23:41
         assertAll(() -> assertEquals(2019, lst.getYear().getValue()),
                 () -> assertEquals(12, lst.getMonth().getValue()),
                 () -> assertEquals(31, lst.getDay().getValue()),
@@ -335,10 +338,11 @@ public class TimeTest {
 
     @Test
     void givenGSTEarlyMorning_whenConvertToLSTWithNegativeLongitude_thenGoesToPreviousDay() {
-        // GST early in morning + large negative longitude offset crosses to previous day
+        // GST early in morning + large negative longitude offset crosses to previous
+        // day
         GST gst = new GST(new Year(2020), new Month(3), new Day(15), new Hour(1), new Minute(0), new Second(0));
         LST lst = gst.toLST(new Degree(-50));
-        
+
         // Longitude -50° = -3.333 hours, LST = 1 - 3.333 = -2.333 → previous day
         assertAll(() -> assertEquals(2020, lst.getYear().getValue()),
                 () -> assertEquals(3, lst.getMonth().getValue()),
@@ -350,7 +354,7 @@ public class TimeTest {
         // GST late at night + large positive longitude offset crosses to next day
         GST gst = new GST(new Year(2020), new Month(3), new Day(15), new Hour(23), new Minute(0), new Second(0));
         LST lst = gst.toLST(new Degree(100));
-        
+
         // Longitude 100° = 6.667 hours, LST = 23 + 6.667 = 29.667 → next day 5:40
         assertAll(() -> assertEquals(2020, lst.getYear().getValue()),
                 () -> assertEquals(3, lst.getMonth().getValue()),
@@ -362,8 +366,9 @@ public class TimeTest {
     void givenLst_whenConvertToGST_thenCorrect() {
         LST lst = new LST(new Year(2020), new Month(1), new Day(1), new Hour(23), new Minute(23), new Second(41.0));
         GST gst = lst.toGST(new Degree(50));
-        
-        // Longitude 50° = 3.333 hours, GST = LST - offset = 23:23:41 - 3:20:00 = 20:03:41 → same day
+
+        // Longitude 50° = 3.333 hours, GST = LST - offset = 23:23:41 - 3:20:00 =
+        // 20:03:41 → same day
         assertAll(() -> assertEquals(2020, gst.getYear().getValue()),
                 () -> assertEquals(1, gst.getMonth().getValue()),
                 () -> assertEquals(1, gst.getDay().getValue()),
@@ -374,10 +379,11 @@ public class TimeTest {
 
     @Test
     void givenLSTEarlyMorning_whenConvertToGSTWithPositiveLongitude_thenGoesToPreviousDay() {
-        // LST early in morning - large positive longitude offset crosses to previous day
+        // LST early in morning - large positive longitude offset crosses to previous
+        // day
         LST lst = new LST(new Year(2020), new Month(3), new Day(15), new Hour(2), new Minute(0), new Second(0));
         GST gst = lst.toGST(new Degree(60));
-        
+
         // Longitude 60° = 4 hours, GST = 2 - 4 = -2 → previous day 22:00
         assertAll(() -> assertEquals(2020, gst.getYear().getValue()),
                 () -> assertEquals(3, gst.getMonth().getValue()),
@@ -390,7 +396,7 @@ public class TimeTest {
         // LST late at night - negative longitude offset crosses to next day
         LST lst = new LST(new Year(2020), new Month(3), new Day(15), new Hour(22), new Minute(0), new Second(0));
         GST gst = lst.toGST(new Degree(-100));
-        
+
         // Longitude -100° = -6.667 hours, GST = 22 - (-6.667) = 28.667 → next day 4:40
         assertAll(() -> assertEquals(2020, gst.getYear().getValue()),
                 () -> assertEquals(3, gst.getMonth().getValue()),
@@ -399,7 +405,7 @@ public class TimeTest {
     }
 
     @Test
-    void givenADateTimeInLCT_whenConvertToAll_thenIsCorrect(){
+    void givenADateTimeInLCT_whenConvertToAll_thenIsCorrect() {
         Year year = new Year(2014);
         Month month = new Month(12);
         Day day = new Day(12);
@@ -409,7 +415,7 @@ public class TimeTest {
 
         LCT lct = new LCT(year, month, day, new Hour(20), new Minute(0), new Second(0), offset);
 
-        UT ut = lct.toUT(); 
+        UT ut = lct.toUT();
         assertAll(() -> assertEquals(2014, ut.getYear().getValue()),
                 () -> assertEquals(12, ut.getMonth().getValue()),
                 () -> assertEquals(13, ut.getDay().getValue()),
@@ -435,7 +441,7 @@ public class TimeTest {
     }
 
     @Test
-    void givenADateInLST_whenConvertToAll_thenCorrect(){
+    void givenADateInLST_whenConvertToAll_thenCorrect() {
         Year year = new Year(2000);
         Month month = new Month(7);
         Day day = new Day(5);
