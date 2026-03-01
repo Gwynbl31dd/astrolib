@@ -590,4 +590,11 @@ public class TimeTest {
         assertEquals(180, degree.getValue(), 1e-10);
     }
 
+    @Test
+    void givenHours_whenConvertToDays_thenCorrect() {
+        Hour hour = new Hour(48);
+        Day day = hour.toDays();
+        assertEquals(2, day.getValue(), 1e-10);
+    }
+
 }
