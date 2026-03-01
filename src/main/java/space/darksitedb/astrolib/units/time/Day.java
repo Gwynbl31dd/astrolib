@@ -7,9 +7,6 @@ public class Day extends Unit implements Time {
 
     public Day(double days) {
         super(days);
-        if (days < 0) {
-            throw new IllegalArgumentException("Time cannot be negative");
-        }
     }
 
     @Override
@@ -41,5 +38,5 @@ public class Day extends Unit implements Time {
     public Minute toMinutes() {
         return toHours().toMinutes();
     }
-    
+
 }

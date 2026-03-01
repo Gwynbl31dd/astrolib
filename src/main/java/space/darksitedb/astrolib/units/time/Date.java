@@ -30,6 +30,17 @@ public abstract class Date {
             throw new IllegalArgumentException("Time cannot be negative");
         }
 
+        if( hour.getValue() < 0 || minute.getValue() < 0 || second.getValue() < 0) {
+            throw new IllegalArgumentException("Time cannot be negative");
+        }
+
+        // If day, hour or minute has a fractional part, we throw an exception
+        // as this is not supported
+        if (day.getValue() != Math.floor(day.getValue()) || hour.getValue() != Math.floor(hour.getValue())
+                || minute.getValue() != Math.floor(minute.getValue())) {
+            throw new IllegalArgumentException("Fractional day, hour or minute is not supported");
+        }
+
         if (day.getValue() > 31) {
             // If day has a fractional part, we remove it and add them to hours minutes and
             // seconds

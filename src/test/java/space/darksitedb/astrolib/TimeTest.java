@@ -104,21 +104,6 @@ public class TimeTest {
         assertEquals("01:01:01.0", hms.toString());
     }
 
-    @Test
-    void givenHour_whenValueIsNegative_thenThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> new Hour(-1));
-    }
-
-    @Test
-    void givenMinute_whenValueIsNegative_thenThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> new Minute(-1));
-    }
-
-    @Test
-    void givenSecond_whenValueIsNegative_thenThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> new Second(-1));
-    }
-
     @ParameterizedTest(name = "year {0} is leap year: {1}")
     @CsvSource({ "1984, true", "1974, false", "2000, true", "1900, false" })
     void givenYear_whenRequestIsLeapYear_thenCorrect(int yearValue, boolean expected) {
@@ -536,6 +521,73 @@ public class TimeTest {
         assertThrows(IllegalArgumentException.class,
                 () -> new UT(new Year(2020), new Month(1), new Day(1), new Hour(24), new Minute(60),
                         new Second(60)));
+    }
+
+    @Test
+    void givenADayIZero_whenCreateDate_thenThrowException() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new UT(new Year(2020), new Month(1), new Day(0)));
+    }
+
+    @Test
+    void givenADayHasFraction_whenCreateDate_thenThrowException() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new UT(new Year(2020), new Month(1), new Day(1.5)));
+    }
+
+    @Test
+    void givenHourHasFraction_whenCreateDate_thenThrowException() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new UT(new Year(2020), new Month(1), new Day(1), new Hour(12.5), new Minute(0),
+                        new Second(0)));
+    }
+
+    @Test
+    void givenMinuteHasFraction_whenCreateDate_thenThrowException() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new UT(new Year(2020), new Month(1), new Day(1), new Hour(12), new Minute(30.5), new Second(0)));
+    }
+
+    @Test 
+    void givenADay_whenConvertToHours_thenCorrect() {
+        Day day = new Day(0.5);
+        Hour hour = day.toHours();
+        assertEquals(12, hour.getValue(), 1e-10);
+    }
+
+    @Test
+    void givenADay_whenConvertToMinutes_thenCorrect() {
+        Day day = new Day(0.25);
+        Minute minute = day.toMinutes();
+        assertEquals(360, minute.getValue(), 1e-10);
+    }
+
+    @Test
+    void givenADay_whenConvertToSeconds_thenCorrect() {
+        Day day = new Day(0.125);
+        Second second = day.toSeconds();
+        assertEquals(10800, second.getValue(), 1e-10);
+    }
+
+    @Test
+    void givenADay_whenConvertToHms_thenCorrect() {
+        Day day = new Day(0.75);
+        Hms hms = day.toHms();
+        assertEquals("18:00:00.0", hms.toString());
+    }
+
+    @Test
+    void givenADay_whenConvertToADay_thenSame() {
+        Day day = new Day(1);
+        Day converted = day.toDays();
+        assertEquals(day.getValue(), converted.getValue(), 1e-10);
+    }
+
+    @Test
+    void givenADay_whenConvertToDegrees_thenCorrect() {
+        Day day = new Day(0.5);
+        Degree degree = day.toDegrees();
+        assertEquals(180, degree.getValue(), 1e-10);
     }
 
 }
