@@ -5,6 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import space.darksitedb.astrolib.units.*;
+import space.darksitedb.astrolib.units.temperature.DegreeCelsius;
+import space.darksitedb.astrolib.units.temperature.DegreeFahrenheit;
+import space.darksitedb.astrolib.units.temperature.DegreeKelvin;
 
 import org.junit.jupiter.api.Test;
 

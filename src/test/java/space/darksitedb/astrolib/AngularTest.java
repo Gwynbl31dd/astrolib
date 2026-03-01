@@ -5,6 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import space.darksitedb.astrolib.units.*;
+import space.darksitedb.astrolib.units.angle.ArcMinute;
+import space.darksitedb.astrolib.units.angle.ArcSecond;
+import space.darksitedb.astrolib.units.angle.Degree;
+import space.darksitedb.astrolib.units.angle.Dms;
+import space.darksitedb.astrolib.units.angle.Radian;
+import space.darksitedb.astrolib.units.time.Hour;
 
 import org.junit.jupiter.api.Test;
 

@@ -1,6 +1,15 @@
 package space.darksitedb.astrolib;
 
 import space.darksitedb.astrolib.units.*;
+import space.darksitedb.astrolib.units.length.Au;
+import space.darksitedb.astrolib.units.length.Foot;
+import space.darksitedb.astrolib.units.length.Inch;
+import space.darksitedb.astrolib.units.length.Kilometer;
+import space.darksitedb.astrolib.units.length.LightYear;
+import space.darksitedb.astrolib.units.length.Meter;
+import space.darksitedb.astrolib.units.length.Mile;
+import space.darksitedb.astrolib.units.length.Millimeter;
+import space.darksitedb.astrolib.units.length.Parsec;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
