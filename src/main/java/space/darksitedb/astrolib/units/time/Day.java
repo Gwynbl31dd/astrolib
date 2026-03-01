@@ -31,4 +31,15 @@ public class Day extends Unit implements Time {
     public Day toDays() {
         return this;
     }
+
+    @Override
+    public Second toSeconds() {
+        return toHours().toSeconds();
+    }
+
+    @Override
+    public Minute toMinutes() {
+        return toHours().toMinutes();
+    }
+    
 }

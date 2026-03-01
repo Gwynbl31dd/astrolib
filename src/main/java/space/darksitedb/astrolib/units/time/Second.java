@@ -32,4 +32,14 @@ public class Second extends Unit implements Time {
         return toHours().toDays();
     }
 
+    @Override
+    public Second toSeconds() {
+        return this;
+    }
+
+    @Override
+    public Minute toMinutes() {
+        return toHours().toMinutes();
+    }
+
 }

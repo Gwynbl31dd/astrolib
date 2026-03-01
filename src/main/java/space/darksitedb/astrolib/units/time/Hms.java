@@ -70,4 +70,14 @@ public class Hms implements Time {
         return toHours().toDays();
     }
 
+    @Override
+    public Second toSeconds() {
+        return toHours().toSeconds();
+    }
+
+    @Override
+    public Minute toMinutes() {
+        return toHours().toMinutes();
+    }
+
 }

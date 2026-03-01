@@ -15,6 +15,10 @@ public interface Time {
 
     Day toDays();
 
+    Second toSeconds();
+
+    Minute toMinutes();
+
     Hms toHms();
 
 }

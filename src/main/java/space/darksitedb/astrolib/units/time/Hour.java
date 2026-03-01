@@ -37,4 +37,14 @@ public class Hour extends Unit implements Time {
         return new Day(value / 24);
     }
 
+    @Override
+    public Second toSeconds() {
+        return new Second(value * 3600);
+    }
+
+    @Override
+    public Minute toMinutes() {
+        return new Minute(value * 60);
+    }
+
 }
