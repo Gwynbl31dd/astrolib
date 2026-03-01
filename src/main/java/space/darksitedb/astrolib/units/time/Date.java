@@ -30,7 +30,7 @@ public abstract class Date {
             throw new IllegalArgumentException("Time cannot be negative");
         }
 
-        if( hour.getValue() < 0 || minute.getValue() < 0 || second.getValue() < 0) {
+        if (hour.getValue() < 0 || minute.getValue() < 0 || second.getValue() < 0) {
             throw new IllegalArgumentException("Time cannot be negative");
         }
 
