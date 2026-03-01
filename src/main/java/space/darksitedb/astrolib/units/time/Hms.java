@@ -34,11 +34,11 @@ public class Hms implements Time {
 
     @Override
     public Degree toDegrees() {
-        return toDecimalHours().toDegrees();
+        return toHours().toDegrees();
     }
 
     @Override
-    public Hour toDecimalHours() {
+    public Hour toHours() {
         double totalHours = hour.getValue() + minute.getValue() / 60 + second.getValue() / 3600;
         return new Hour(totalHours);
     }

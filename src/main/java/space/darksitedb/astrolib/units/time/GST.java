@@ -70,7 +70,7 @@ public class GST extends Date {
 
         Hms gstHms = new Hms(getHour(), getMinute(), getSecond());
         // Convert GST to Decimal Hours
-        double gstHours = gstHms.toDecimalHours().getValue();
+        double gstHours = gstHms.toHours().getValue();
 
         double offset = longitude.getValue() / 15.0; // Convert longitude to hours
         // Adjust GST for longitude offset to get LST

@@ -14,17 +14,17 @@ public class Minute extends Unit implements Time {
 
     @Override
     public Degree toDegrees() {
-        return toDecimalHours().toDegrees();
+        return toHours().toDegrees();
     }
 
     @Override
-    public Hour toDecimalHours() {
+    public Hour toHours() {
         return new Hour(value / 60);
     }
 
     @Override
     public Hms toHms() {
-        return toDecimalHours().toHms();
+        return toHours().toHms();
     }
 
 }

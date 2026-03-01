@@ -16,7 +16,7 @@ public class LST extends Date {
     public GST toGST(Degree longitude) {
         Hms lstHms = new Hms(getHour(), getMinute(), getSecond());
         // Convert LST to Decimal Hours
-        double lstHours = lstHms.toDecimalHours().getValue();
+        double lstHours = lstHms.toHours().getValue();
         // Convert Longitude to Decimal Hours (15 degrees per hour)
         double longitudeHours = longitude.getValue() / 15.0;
         double gstHours = lstHours - longitudeHours;

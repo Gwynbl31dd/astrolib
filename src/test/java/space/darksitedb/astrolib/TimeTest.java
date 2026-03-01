@@ -30,7 +30,7 @@ public class TimeTest {
     @Test
     void givenHms_whenConvertToHours_thenCorrect() {
         Hms hms = new Hms(new Hour(2), new Minute(30), new Second(45));
-        Hour hour = hms.toDecimalHours();
+        Hour hour = hms.toHours();
         assertEquals(2.5125, hour.getValue(), 1e-10);
     }
 
@@ -38,7 +38,7 @@ public class TimeTest {
     void givenHms_whenConvertToHms_thenSame() {
         Hms hms = new Hms(new Hour(1), new Minute(15), new Second(30));
         Hms converted = hms.toHms();
-        assertEquals(hms.toDecimalHours().getValue(), converted.toDecimalHours().getValue(), 1e-10);
+        assertEquals(hms.toHours().getValue(), converted.toHours().getValue(), 1e-10);
     }
 
     @Test
@@ -51,7 +51,7 @@ public class TimeTest {
     @Test
     void givenHours_whenConvertToHours_thenSame() {
         Hour hour = new Hour(5);
-        Hour converted = hour.toDecimalHours();
+        Hour converted = hour.toHours();
         assertEquals(hour.getValue(), converted.getValue(), 1e-10);
     }
 
@@ -65,7 +65,7 @@ public class TimeTest {
     @Test
     void givenMinute_whenConvertToHours_thenCorrect() {
         Minute minute = new Minute(90);
-        Hour hour = minute.toDecimalHours();
+        Hour hour = minute.toHours();
         assertEquals(1.5, hour.getValue(), 1e-10);
     }
 
@@ -93,7 +93,7 @@ public class TimeTest {
     @Test
     void givenSeconds_whenConvertToHours_thenCorrect() {
         Second second = new Second(7200);
-        Hour hour = second.toDecimalHours();
+        Hour hour = second.toHours();
         assertEquals(2.0, hour.getValue(), 1e-10);
     }
 

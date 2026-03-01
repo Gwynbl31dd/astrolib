@@ -26,12 +26,13 @@ public abstract class Date {
 
     public Date(Year year, Month month, Day day, Hour hour, Minute minute, Second second) {
 
-        if(day.getValue() <= 0) {
+        if (day.getValue() <= 0) {
             throw new IllegalArgumentException("Time cannot be negative");
         }
 
         if (day.getValue() > 31) {
-            // If day has a fractional part, we remove it and add them to hours minutes and seconds
+            // If day has a fractional part, we remove it and add them to hours minutes and
+            // seconds
             double fractionalDay = day.getValue() - Math.floor(day.getValue());
             double totalHours = fractionalDay * 24;
             double hours = Math.floor(totalHours);

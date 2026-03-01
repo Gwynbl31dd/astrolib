@@ -11,7 +11,7 @@ public interface Time {
 
     Degree toDegrees();
 
-    Hour toDecimalHours();
+    Hour toHours();
 
     Hms toHms();
 
