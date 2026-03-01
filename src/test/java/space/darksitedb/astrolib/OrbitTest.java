@@ -56,4 +56,16 @@ public class OrbitTest {
 
         assertEquals(expectedMeanAnomaly.getValue(), actualMeanAnomaly.getValue(), 0.01);
     }
+
+    @Test
+    void givenAngleAndOrbitalPeriod_whenRequestTimeToReachAngle_thenCorrect() {
+        Day orbitalPeriod = new Day(686.97);
+        Degree angle = new Degree(230);
+        Day expectedTime = new Day(438.8975);
+
+        Day actualTime = Orbit.getTimeSincePerihelionFromMeanAnomaly(orbitalPeriod, angle);
+
+        assertEquals(expectedTime.getValue(), actualTime.getValue(), 0.0000001);
+    }
+    
 }

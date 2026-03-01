@@ -5,6 +5,7 @@ import space.darksitedb.astrolib.units.angle.Degree;
 import space.darksitedb.astrolib.units.length.Kilometer;
 import space.darksitedb.astrolib.units.length.Length;
 import space.darksitedb.astrolib.units.time.Day;
+import space.darksitedb.astrolib.units.time.Time;
 
 /**
  * Class representing orbits operations.
@@ -37,9 +38,21 @@ public class Orbit {
      * @param sincePerihelion The time since perihelion.
      * @return The mean anomaly.
      */
-    public static Degree calculateMeanAnomaly(Day orbitalPeriod, Day sincePerihelion) {
-        double meanAnomaly = (360.0 / orbitalPeriod.getValue()) * sincePerihelion.getValue();
+    public static Degree calculateMeanAnomaly(Time orbitalPeriod, Time sincePerihelion) {
+        double meanAnomaly = (360.0 / orbitalPeriod.toDays().getValue()) * sincePerihelion.toDays().getValue();
         return new Degree(meanAnomaly);
+    }
+
+    /**
+     * Calculates the time elapsed since perihelion based on the mean anomaly.
+     * 
+     * @param orbitalPeriod The orbital period of the orbit.
+     * @param meanAnomaly   The mean anomaly (angle from perihelion).
+     * @return The time elapsed since perihelion passage.
+     */
+    public static Day getTimeSincePerihelionFromMeanAnomaly(Time orbitalPeriod, Angular meanAnomaly) {
+        double timeSincePerihelion = (meanAnomaly.toDegrees().getValue() * orbitalPeriod.toDays().getValue()) / 360.0;
+        return new Day(timeSincePerihelion);
     }
 
 }
