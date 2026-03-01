@@ -26,13 +26,30 @@ public abstract class Date {
 
     public Date(Year year, Month month, Day day, Hour hour, Minute minute, Second second) {
 
+        if(day.getValue() <= 0) {
+            throw new IllegalArgumentException("Time cannot be negative");
+        }
+
         if (day.getValue() > 31) {
+            // If day has a fractional part, we remove it and add them to hours minutes and seconds
+            double fractionalDay = day.getValue() - Math.floor(day.getValue());
+            double totalHours = fractionalDay * 24;
+            double hours = Math.floor(totalHours);
+            double totalMinutes = (totalHours - hours) * 60;
+            double minutes = Math.floor(totalMinutes);
+            double seconds = (totalMinutes - minutes) * 60;
+
+            day = new Day(Math.floor(day.getValue()));
+            hour = new Hour(hour.getValue() + hours);
+            minute = new Minute(minute.getValue() + minutes);
+            second = new Second(second.getValue() + seconds);
+
             // If day greater than a month, interpret as day-of-year and calculate the
             // actual date
             LocalDate baseDate = LocalDate.of(year.getValue(), 1, 1);
-            this.value = baseDate.plusDays(day.getValue() - 1);
+            this.value = baseDate.plusDays((int) day.getValue() - 1);
         } else {
-            this.value = LocalDate.of(year.getValue(), month.getValue(), day.getValue());
+            this.value = LocalDate.of(year.getValue(), month.getValue(), (int) day.getValue());
         }
 
         if (hour.getValue() >= 24 || minute.getValue() >= 60 || second.getValue() >= 60) {
@@ -47,7 +64,7 @@ public abstract class Date {
     protected DateTimeCrossing getDayBondaryCrossing(double hours) {
 
         LocalDateTime dateTime = LocalDateTime.of(
-                getYear().getValue(), getMonth().getValue(), getDay().getValue(), 0, 0, 0);
+                getYear().getValue(), getMonth().getValue(), (int) getDay().getValue(), 0, 0, 0);
         // Handle day boundary crossings
         while (hours < 0) {
             hours += 24;

@@ -1,18 +1,13 @@
 package space.darksitedb.astrolib.units.time;
 
-public class Day {
+import space.darksitedb.astrolib.units.Unit;
 
-    private final int value;
+public class Day extends Unit {
 
-    public Day(int day) {
-        if (day < 1) {
-            throw new IllegalArgumentException("Day must be greater than 0");
+    public Day(double days) {
+        super(days);
+        if(days < 0) {
+            throw new IllegalArgumentException("Time cannot be negative");
         }
-        this.value = day;
     }
-
-    public int getValue() {
-        return value;
-    }
-
 }

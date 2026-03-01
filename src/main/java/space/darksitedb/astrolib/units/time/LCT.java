@@ -38,7 +38,7 @@ public class LCT extends Date {
     public UT toUT() {
         // Convert LCT to UT by subtracting the time zone offset
         LocalDateTime localDateTime = LocalDateTime.of(getYear().getValue(), getMonth().getValue(),
-                getDay().getValue(), (int) getHour().getValue(), (int) getMinute().getValue(),
+                (int) getDay().getValue(), (int) getHour().getValue(), (int) getMinute().getValue(),
                 (int) getSecond().getValue());
 
         LocalDateTime utcDateTime = localDateTime.minusHours(timeZoneOffset);

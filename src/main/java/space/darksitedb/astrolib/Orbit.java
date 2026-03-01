@@ -27,9 +27,9 @@ public class Orbit {
 
     /**
      * Calculates the mean anomaly based on the given orbital period and time since perihelion.
-     * @param orbitalPeriod
-     * @param sincePerihelion
-     * @return
+     * @param orbitalPeriod The orbital period of the orbit.
+     * @param sincePerihelion The time since perihelion.
+     * @return The mean anomaly.
      */
     public static Degree calculateMeanAnomaly(Day orbitalPeriod, Day sincePerihelion) {
         double meanAnomaly = (360.0 / orbitalPeriod.getValue()) * sincePerihelion.getValue();

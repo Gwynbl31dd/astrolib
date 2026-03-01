@@ -40,7 +40,7 @@ public class UT extends Date {
     public JulianDate toJulianDayNumber() {
         int year = getYear().getValue();
         int month = getMonth().getValue();
-        int day = getDay().getValue();
+        int day = (int) getDay().getValue();
 
         if (month <= 2) {
             year--;
@@ -72,7 +72,7 @@ public class UT extends Date {
     public LCT toLCT(int timeZoneOffset) {
         // Convert UT to LCT by adding the time zone offset
         LocalDateTime utcDateTime = LocalDateTime.of(getYear().getValue(), getMonth().getValue(),
-                getDay().getValue(), (int) getHour().getValue(), (int) getMinute().getValue(),
+                (int) getDay().getValue(), (int) getHour().getValue(), (int) getMinute().getValue(),
                 (int) getSecond().getValue());
         LocalDateTime localDateTime = utcDateTime.plusHours(timeZoneOffset);
         return new LCT(new Year(localDateTime.getYear()), new Month(localDateTime.getMonthValue()),

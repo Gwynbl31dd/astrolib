@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import space.darksitedb.astrolib.units.*;
 import space.darksitedb.astrolib.units.angle.ArcMinute;
 import space.darksitedb.astrolib.units.angle.ArcSecond;
 import space.darksitedb.astrolib.units.angle.Degree;
@@ -490,11 +489,6 @@ public class TimeTest {
                 () -> assertEquals(10, lct.getHour().getValue()),
                 () -> assertEquals(59, lct.getMinute().getValue()),
                 () -> assertEquals(59, (int) lct.getSecond().getValue()));
-    }
-
-    @Test
-    void givenADay_whenValueIsZero_thenThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> new Day(0));
     }
 
     @Test
