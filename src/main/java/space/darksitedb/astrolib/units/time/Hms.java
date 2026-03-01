@@ -65,4 +65,9 @@ public class Hms implements Time {
         return String.format("%02d:%02d:%04.1f", (int) hour.getValue(), (int) minute.getValue(), second.getValue());
     }
 
+    @Override
+    public Day toDays() {
+        return toHours().toDays();
+    }
+
 }

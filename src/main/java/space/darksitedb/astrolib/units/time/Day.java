@@ -26,4 +26,9 @@ public class Day extends Unit implements Time {
     public Hms toHms() {
         return toHours().toHms();
     }
+
+    @Override
+    public Day toDays() {
+        return this;
+    }
 }

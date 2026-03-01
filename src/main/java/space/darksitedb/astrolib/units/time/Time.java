@@ -13,6 +13,8 @@ public interface Time {
 
     Hour toHours();
 
+    Day toDays();
+
     Hms toHms();
 
 }

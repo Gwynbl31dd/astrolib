@@ -32,4 +32,9 @@ public class Hour extends Unit implements Time {
         return this;
     }
 
+    @Override
+    public Day toDays() {
+        return new Day(value / 24);
+    }
+
 }
