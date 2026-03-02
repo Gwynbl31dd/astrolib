@@ -3,6 +3,8 @@ package space.darksitedb.astrolib;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import space.darksitedb.astrolib.units.angle.Degree;
 import space.darksitedb.astrolib.units.length.Kilometer;
@@ -46,15 +48,16 @@ public class OrbitTest {
         assertEquals(expectedDistance.getValue(), actualDistance.getValue(), 0.01);
     }
 
-    @Test
-    void givenOrbitalPeriodSincePerihelion_whenCalculateMeanAnomaly_thenCorrect() {
-        Day orbitalPeriod = new Day(686);
-        Day sincePerihelion = new Day(300);
-        Degree expectedMeanAnomaly = new Degree(157.434);
+    @ParameterizedTest(name = "orbital period {0} Since perihelion {1} corresponds mean anomaly {2}")
+    @CsvSource({ "686, 300, 157.434", "365.2564, 100.25, 98.8073", "4332.59, 2000, 166.1823", "365.2564, 182.6282, 180" })
+    void givenOrbitalPeriodSincePerihelion_whenCalculateMeanAnomaly_thenCorrect(double orbitalPeriodValue, double sincePerihelionValue, double expectedMeanAnomalyValue) {
+        Day orbitalPeriod = new Day(orbitalPeriodValue);
+        Day sincePerihelion = new Day(sincePerihelionValue);
+        Degree expectedMeanAnomaly = new Degree(expectedMeanAnomalyValue);
 
         Degree actualMeanAnomaly = Orbit.calculateMeanAnomaly(orbitalPeriod, sincePerihelion);
 
-        assertEquals(expectedMeanAnomaly.getValue(), actualMeanAnomaly.getValue(), 0.01);
+        assertEquals(expectedMeanAnomaly.getValue(), actualMeanAnomaly.getValue(), 0.001);
     }
 
     @Test
@@ -66,6 +69,18 @@ public class OrbitTest {
         Day actualTime = Orbit.getTimeSincePerihelionFromMeanAnomaly(orbitalPeriod, angle);
 
         assertEquals(expectedTime.getValue(), actualTime.getValue(), 0.0000001);
+    }
+
+    @Test
+    void givenAngleOrbitalPeriodAndTimeSincePerihelion_whenCalculateTrueAnomaly_thenCorrect() {
+        Day orbitalPeriod = new Day(365.2564);
+        Day sincePerihelion = new Day(100.25);
+        float eccentricity = 0.0167f;
+        Degree expectedTrueAnomaly = new Degree(180);
+
+        Degree actualTrueAnomaly = Orbit.calculateTrueAnomaly(orbitalPeriod, sincePerihelion, eccentricity);
+
+        assertEquals(expectedTrueAnomaly.getValue(), actualTrueAnomaly.getValue(), 0.0000001);
     }
     
 }

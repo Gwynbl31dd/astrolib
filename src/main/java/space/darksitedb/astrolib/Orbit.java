@@ -55,4 +55,30 @@ public class Orbit {
         return new Day(timeSincePerihelion);
     }
 
+    /**
+     * Calculates the true anomaly based on the given orbital period, time since
+     * perihelion, and eccentricity.
+     * 
+     * THis is a simplified version of the true anomaly calculation, which does not take into account the iterative nature of solving Kepler's equation. For more accurate results, a numerical method should
+     * @param orbitalPeriod
+     * @param sincePerihelion
+     * @param eccentricity
+     * @return
+     */
+    public static Degree calculateTrueAnomaly(Time orbitalPeriod, Time sincePerihelion, float eccentricity) {
+        Degree meanAnomaly = calculateMeanAnomaly(orbitalPeriod, sincePerihelion);
+        double correction = (180/Math.PI) * ( 2*eccentricity * Math.sin(meanAnomaly.toRadians().getValue()) );
+        Degree trueAnomaly = new Degree(meanAnomaly.getValue() + correction);
+
+        Time halfOrbitalPeriod = new Day(orbitalPeriod.toDays().getValue() / 2);
+
+        meanAnomaly = calculateMeanAnomaly(orbitalPeriod, halfOrbitalPeriod);
+
+        correction = (180/Math.PI) * ( 2*eccentricity * Math.sin(meanAnomaly.toRadians().getValue()) );
+
+        trueAnomaly = new Degree(meanAnomaly.getValue() + correction);
+
+        return trueAnomaly;
+    }
+
 }
