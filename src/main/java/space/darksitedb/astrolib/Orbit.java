@@ -60,6 +60,8 @@ public class Orbit {
      * perihelion, and eccentricity.
      * 
      * THis is a simplified version of the true anomaly calculation, which does not take into account the iterative nature of solving Kepler's equation. For more accurate results, a numerical method should
+     * be implemented to solve for the eccentric anomaly and then calculate the true anomaly from it.
+     * 
      * @param orbitalPeriod
      * @param sincePerihelion
      * @param eccentricity
