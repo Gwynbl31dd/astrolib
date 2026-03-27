@@ -118,3 +118,5 @@ THIS IS A CHANGE
 A change by user A
 
 A Change by user C
+
+A Change by user B
